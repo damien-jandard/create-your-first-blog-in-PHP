@@ -1,0 +1,11 @@
+{
+    "name": "dj/blog",
+    "description": "Blog PHP",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Damien JANDARD"
+        }
+    ],
+    "require": {}
+}
