@@ -6,6 +6,6 @@ class HomeController
 {
     public function home()
     {
-        echo "Accueil";
+        include '../views/home.php';
     }
 }
