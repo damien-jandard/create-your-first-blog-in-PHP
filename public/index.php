@@ -4,7 +4,7 @@ use Controllers\HomeController;
 
 require '../vendor/autoload.php';
 
-$action = $_GET[''] ?? '';
+$action = $_GET['action'] ?? '';
 
 switch ($action) {
     case '':
