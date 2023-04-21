@@ -34,7 +34,7 @@
                     <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#about">A
                             propos</a></li>
                     <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#contact">Contact</a></li>
-                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="">Blog</a>
+                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="index.php?action=blog">Blog</a>
                     </li>
                 </ul>
             </div>
@@ -256,8 +256,8 @@
                 <!-- Footer About Text-->
                 <div class="col-lg-4">
                     <h4 class="text-uppercase mb-4">Administration</h4>
-                    <a class="btn btn-outline-light btn-social mx-1" title="S'enregistrer" href="#!"><i class="fa-solid fa-user-plus"></i></a>
-                    <a class="btn btn-outline-light btn-social mx-1" title="Se connecter" href="#!"><i class="fa-solid fa-lock"></i></a>
+                    <a class="btn btn-outline-light btn-social mx-1" title="S'enregistrer" href="index.php?action=register"><i class="fa-solid fa-user-plus"></i></a>
+                    <a class="btn btn-outline-light btn-social mx-1" title="Se connecter" href="index.php?action=login"><i class="fa-solid fa-lock"></i></a>
                 </div>
             </div>
         </div>
