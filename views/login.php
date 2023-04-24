@@ -70,6 +70,13 @@
                         <!-- Submit Button-->
                         <button class="btn btn-primary btn-xl" id="submitButton" type="submit">Se connecter</button>
                     </form>
+                    <?php
+                    if ($_GET['activate'] === 'check') {
+                        echo '<div class="alert alert-warning mt-3" role="alert">Merci pour votre inscription. Pensez à activer votre compte en cliquant sur le lien envoyé par email</div>';
+                    } elseif ($_GET['activate'] === 'checked') {
+                        echo '<div class="alert alert-success mt-3" role="alert">Votre compte est désormais activé. Vous pouvez dès à présent vous connecter</div>';
+                    }
+                    ?>
                 </div>
             </div>
         </div>

@@ -11,6 +11,7 @@ class User
     private string $password;
     private bool $isAdmin;
     private bool $status;
+    private string $token;
     private DateTime $createdAt;
     private array $posts = [];
     private array $comments = [];
@@ -50,6 +51,11 @@ class User
     public function status()
     {
         return $this->status;
+    }
+
+    public function token()
+    {
+        return $this->token;
     }
 
     public function createdAt()

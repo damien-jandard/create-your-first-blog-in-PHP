@@ -20,6 +20,10 @@ switch ($action) {
         $controller = new UsersController();
         $controller->addUser();
         break;
+    case 'registered':
+        $controller = new UsersController();
+        $controller->registered();
+        break;
     case 'login':
         $controller = new UsersController();
         $controller->login();
