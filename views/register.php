@@ -29,15 +29,15 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="?index.php">Accueil</a></li>
+                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="/">Accueil</a></li>
                 </ul>
             </div>
         </div>
     </nav>
-    <!-- Contact Section-->
+    <!-- Register Section-->
     <section class="masthead page-section" id="register">
         <div class="container">
-            <!-- Contact Section Heading-->
+            <!-- Register Section Heading-->
             <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">S'enregistrer</h2>
             <!-- Icon Divider-->
             <div class="divider-custom">
@@ -45,17 +45,13 @@
                 <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
                 <div class="divider-custom-line"></div>
             </div>
-            <!-- Contact Section Form-->
+            <!-- Register Section Form-->
             <div class="row justify-content-center">
                 <div class="col-lg-8 col-xl-7">
                     <!-- * * * * * * * * * * * * * * *-->
-                    <!-- * * SB Forms Contact Form * *-->
+                    <!-- * * Register Form * *-->
                     <!-- * * * * * * * * * * * * * * *-->
-                    <!-- This form is pre-integrated with SB Forms.-->
-                    <!-- To make this form functional, sign up at-->
-                    <!-- https://startbootstrap.com/solution/contact-forms-->
-                    <!-- to get an API token!-->
-                    <form id="contactForm" method="post" action="?action=adduser">
+                    <form id="registerForm" method="post" action="?action=adduser">
                         <!-- Email address input-->
                         <div class="form-floating mb-3">
                             <input class="form-control" id="email" name="email" type="email" placeholder="name@example.com" value="<?php if (isset($_GET['email'])) echo $_GET['email']  ?>" />
