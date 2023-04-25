@@ -29,6 +29,6 @@ switch ($action) {
         $controller->login();
         break;
     default:
-        echo "Route non définie";
+        include '../views/error.php';
         break;
 }

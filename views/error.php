@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Se connecter</title>
+    <title>Erreur 404</title>
     <!-- Favicon-->
     <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
     <!-- Font Awesome icons (free version)-->
@@ -38,47 +38,33 @@
     <section class="masthead page-section" id="register">
         <div class="container">
             <!-- Contact Section Heading-->
-            <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Se connecter</h2>
+            <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Oops !</h2>
             <!-- Icon Divider-->
             <div class="divider-custom">
                 <div class="divider-custom-line"></div>
                 <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
                 <div class="divider-custom-line"></div>
             </div>
-            <!-- Contact Section Form-->
-            <div class="row justify-content-center">
-                <div class="col-lg-8 col-xl-7">
-                    <!-- * * * * * * * * * * * * * * *-->
-                    <!-- * * SB Forms Contact Form * *-->
-                    <!-- * * * * * * * * * * * * * * *-->
-                    <!-- This form is pre-integrated with SB Forms.-->
-                    <!-- To make this form functional, sign up at-->
-                    <!-- https://startbootstrap.com/solution/contact-forms-->
-                    <!-- to get an API token!-->
-                    <form id="contactForm" method="post" action="?action=adduser">
-                        <!-- Email address input-->
-                        <div class="form-floating mb-3">
-                            <input class="form-control" id="email" name="email" type="email" placeholder="name@example.com" value="<?php if (isset($_GET['email'])) echo $_GET['email']  ?>" />
-                            <label for="email">Email</label>
-                        </div>
-                        <!-- Password input-->
-                        <div class="form-floating mb-3">
-                            <input class="form-control" id="password" name="password" type="password" placeholder="JdIcA48*" />
-                            <label for="password">Mot de passe</label>
-                        </div>
-                        <p class="mb-3">Pas encore membre ? <a href="index.php?action=register">S'incrire</a></p>
-                        <!-- Submit Button-->
-                        <button class="btn btn-primary btn-xl" id="submitButton" type="submit">Se connecter</button>
-                    </form>
-                    <?php
-                    if (isset($_GET['activate'])) {
-                        if ($_GET['activate'] === 'check') {
-                            echo '<div class="alert alert-warning mt-3" role="alert">Merci pour votre inscription. Pensez à activer votre compte en cliquant sur le lien envoyé par email</div>';
-                        } elseif ($_GET['activate'] === 'checked') {
-                            echo '<div class="alert alert-success mt-3" role="alert">Votre compte est désormais activé. Vous pouvez dès à présent vous connecter</div>';
+            <!-- Error detail-->
+            <div class="row">
+                <div class="col-lg-4 ms-auto">
+                    <p class="lead pt-5">
+                        <?php
+                        if (isset($_GET['message'])) {
+                            if ($_GET['message'] === 'user') {
+                                echo "Une erreur est survenue lors de l'enregistrement de votre compte utilisateur.";
+                            }
+                        } else {
+                            echo "La page que vous recherchez semble introuvable.";
                         }
-                    }
-                    ?>
+                        ?>
+                    </p>
+                    <p class="lead">
+                        Nous vous invitons à réessayer ultérieurement et à prendre contact avec nous si le problème persiste.
+                    </p>
+                </div>
+                <div class="col-lg-4 me-auto">
+                    <img class="masthead-avatar" src="assets/img/cloudy.png" alt="Cloudy">
                 </div>
             </div>
         </div>
