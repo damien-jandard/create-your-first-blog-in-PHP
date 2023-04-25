@@ -177,30 +177,38 @@
                     <!-- * * * * * * * * * * * * * * *-->
                     <!-- * * Contact Form * *-->
                     <!-- * * * * * * * * * * * * * * *-->
-                    <form id="contactForm">
+                    <form id="contactForm" method="post" action="?action=contact">
                         <!-- Name input-->
                         <div class="form-floating mb-3">
-                            <input class="form-control" id="name" type="text" placeholder="Enter your name..." data-sb-validations="required" />
+                            <input class="form-control" id="name" name="name" type="text" placeholder="Entrer votre nom..." value="<?php if (isset($_GET['name'])) echo $_GET['name']  ?>" required />
                             <label for="name">Nom</label>
-                            <div class="invalid-feedback" data-sb-feedback="name:required">Un nom est requis.</div>
                         </div>
                         <!-- Email address input-->
                         <div class="form-floating mb-3">
-                            <input class="form-control" id="email" type="email" placeholder="name@example.com" data-sb-validations="required,email" />
+                            <input class="form-control" id="email" name="email" type="email" placeholder="nom@exemple.com" value="<?php if (isset($_GET['email'])) echo $_GET['email']  ?>" required />
                             <label for="email">Email</label>
-                            <div class="invalid-feedback" data-sb-feedback="email:required">Un email est requis.</div>
-                            <div class="invalid-feedback" data-sb-feedback="email:email">L'adresse email n'est pas valide.</div>
                         </div>
                         <!-- Message input-->
                         <div class="form-floating mb-3">
-                            <textarea class="form-control" id="message" type="text" placeholder="Enter your message here..." style="height: 10rem" data-sb-validations="required"></textarea>
+                            <textarea class="form-control" id="message" name="message" type="text" placeholder="Entrer votre message ici..." style="height: 10rem" required><?php if (isset($_GET['message'])) echo $_GET['message']  ?></textarea>
                             <label for="message">Message</label>
-                            <div class="invalid-feedback" data-sb-feedback="message:required">Un message est requis.
-                            </div>
                         </div>
                         <!-- Submit Button-->
-                        <button class="btn btn-primary btn-xl disabled" id="submitButton" type="submit">Envoyer</button>
+                        <button class="btn btn-primary btn-xl" id="submitButton" type="submit">Envoyer</button>
                     </form>
+                    <?php
+                    if (isset($_GET['status'])) {
+                        if ($_GET['status'] === 'ended') {
+                            echo '<div class="alert alert-success mt-3" role="alert">Merci pour votre prise de contact nous ne manquerons pas de revenir vers vous dès que possible.</div>';
+                        } elseif ($_GET['status'] === 'name') {
+                            echo '<div class="alert alert-danger mt-3" role="alert">Merci de saisir votre nom.</div>';
+                        } elseif ($_GET['status'] === 'email') {
+                            echo '<div class="alert alert-danger mt-3" role="alert">Merci de saisir une adresse email valide.</div>';
+                        } elseif ($_GET['status'] === 'message') {
+                            echo '<div class="alert alert-danger mt-3" role="alert">Merci de saisir un message compris entre 10 et 255 caractères.</div>';
+                        }
+                    }
+                    ?>
                 </div>
             </div>
         </div>

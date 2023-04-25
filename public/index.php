@@ -12,6 +12,10 @@ switch ($action) {
         $controller = new HomeController();
         $controller->home();
         break;
+    case 'contact':
+        $controller = new HomeController();
+        $controller->contact();
+        break;
     case 'register':
         $controller = new UsersController();
         $controller->register();
