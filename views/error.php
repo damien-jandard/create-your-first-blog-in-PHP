@@ -51,9 +51,7 @@
                     <p class="lead pt-5">
                         <?php
                         if (isset($_GET['message'])) {
-                            if ($_GET['message'] === 'user') {
-                                echo "Une erreur est survenue lors de l'enregistrement de votre compte utilisateur.";
-                            }
+                            echo $_GET['message'];
                         } else {
                             echo "La page que vous recherchez semble introuvable.";
                         }
