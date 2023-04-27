@@ -2,6 +2,7 @@
 
 namespace Models\Managers;
 
+use PDO;
 use Models\Entities\User;
 
 class UsersManager extends Manager
@@ -18,5 +19,14 @@ class UsersManager extends Manager
         $query = 'UPDATE users SET status =1 WHERE email=? AND token=?';
         $request = $this->pdo->prepare($query);
         $request->execute([$user->email(), $user->token()]);
+    }
+
+    public function checkUser(string $email)
+    {
+        $query = 'SELECT id FROM users WHERE email=?';
+        $request = $this->pdo->prepare($query);
+        $request->execute([$email]);
+        $result = $request->fetch(PDO::FETCH_ASSOC);
+        return $result;
     }
 }

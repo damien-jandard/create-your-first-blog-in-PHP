@@ -30,18 +30,22 @@ class UsersController
                     } else {
                         $password = password_hash($password, PASSWORD_BCRYPT);
                         $token = bin2hex(openssl_random_pseudo_bytes(16));
-                        $user = new User(['email' => $email, 'password' => $password, 'token' => $token]);
                         $userManager = new UsersManager();
-                        $userManager->register($user);
-                        ob_start();
-                        $url = "http://blog.test/?action=registered&email=$email&token=$token";
-                        include '../views/email.php';
-                        $body = ob_get_clean();
-                        $mailToUser = $this->sendEmail('Activation de compte Blog PHP', $email, 'contact@blog.com', $body);
-                        if ($mailToUser === 'Email envoyé') {
-                            $redirectTo = "?action=login&activate=check";
+                        if ($userManager->checkUser($email) === false) {
+                            $user = new User(['email' => $email, 'password' => $password, 'token' => $token]);
+                            $userManager->register($user);
+                            ob_start();
+                            $url = "http://blog.test/?action=registered&email=$email&token=$token";
+                            include '../views/email.php';
+                            $body = ob_get_clean();
+                            $mailToUser = $this->sendEmail('Activation de compte Blog PHP', $email, 'contact@blog.com', $body);
+                            if ($mailToUser === 'Email envoyé') {
+                                $redirectTo = "?action=login&activate=check";
+                            } else {
+                                $redirectTo = "?action=error&message=" . $mailToUser;
+                            }
                         } else {
-                            $redirectTo = "?action=error&message=" . $mailToUser;
+                            $redirectTo = "?action=register&error=5&email=$email";
                         }
                     }
                 } else {

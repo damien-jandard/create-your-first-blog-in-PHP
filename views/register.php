@@ -83,8 +83,14 @@
                                     echo "Aucun mot de passe n'a été saisi !";
                                 } elseif ($_GET['error'] === "3") {
                                     echo "Les mots de passes ne sont pas identiques !";
-                                } else {
+                                } elseif ($_GET['error'] === "4") {
                                     echo "Votre mot de passe ne respecte pas les règles de sécurité !";
+                                } else {
+                                    if (isset($_GET['email'])) {
+                                        echo "Un compte existe déjà cette adresse email ! <a href='?action=login&email=" . $_GET['email']  . "'>Se connecter</a>";
+                                    } else {
+                                        echo "Un compte existe déjà cette adresse email ! <a href='?action=login'>Se connecter</a>";
+                                    }
                                 }
                                 ?>
                             </div>
@@ -127,11 +133,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Core theme JS-->
     <script src="js/scripts.js"></script>
-    <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
-    <!-- * *                               SB Forms JS                               * *-->
-    <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
-    <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
-    <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
 </body>
 
 </html>
