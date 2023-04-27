@@ -5,6 +5,14 @@ use Controllers\UsersController;
 
 require '../vendor/autoload.php';
 
+function dd($data)
+{
+    echo '<pre>';
+    var_dump($data);
+    echo '</pre>';
+    exit;
+}
+
 $action = $_GET['action'] ?? '';
 
 switch ($action) {
