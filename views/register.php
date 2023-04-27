@@ -87,9 +87,9 @@
                                     echo "Votre mot de passe ne respecte pas les règles de sécurité !";
                                 } else {
                                     if (isset($_GET['email'])) {
-                                        echo "Un compte existe déjà cette adresse email ! <a href='?action=login&email=" . $_GET['email']  . "'>Se connecter</a>";
+                                        echo "Un compte existe déjà pour cette adresse email ! <a href='?action=login&email=" . $_GET['email']  . "'>Se connecter</a>";
                                     } else {
-                                        echo "Un compte existe déjà cette adresse email ! <a href='?action=login'>Se connecter</a>";
+                                        echo "Un compte existe déjà pour cette adresse email ! <a href='?action=login'>Se connecter</a>";
                                     }
                                 }
                                 ?>
