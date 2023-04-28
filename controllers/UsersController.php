@@ -11,16 +11,17 @@ class UsersController
 
     public function register()
     {
-        include '../views/register.php';
+        include
+            '../views/register.php';
     }
 
     public function addUser()
     {
         if (!empty($_POST['email']) && filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
-            $email = strip_tags($_POST['email']);
+            $email = htmlspecialchars($_POST['email']);
             if (!empty($_POST['password']) && !empty($_POST['confirmPassword'])) {
                 if ($_POST['password'] === $_POST['confirmPassword']) {
-                    $password = strip_tags($_POST['password']);
+                    $password = htmlspecialchars($_POST['password']);
                     $uppercase = preg_match('@[A-Z]@', $password);
                     $lowercase = preg_match('@[a-z]@', $password);
                     $number    = preg_match('@[0-9]@', $password);
@@ -61,24 +62,74 @@ class UsersController
         exit;
     }
 
-    public function login()
-    {
-        include '../views/login.php';
-    }
-
     public function registered()
     {
         if (!empty($_GET['email']) && filter_var($_GET['email'], FILTER_VALIDATE_EMAIL) && !empty($_GET['token'])) {
-            $email = strip_tags($_GET['email']);
-            $token = strip_tags($_GET['token']);
+            $email = htmlspecialchars($_GET['email']);
+            $token = htmlspecialchars($_GET['token']);
             $user = new User(['email' => $email, 'token' => $token]);
             $userManager = new UsersManager();
             $userManager->registered($user);
             $redirectTo = "?action=login&activate=checked";
         } else {
-            $redirectTo = "";
+            $redirectTo = "?";
         }
         header("Location: $redirectTo");
         exit;
+    }
+
+    public function login()
+    {
+        include '../views/login.php';
+    }
+
+    public function postLogin()
+    {
+        if (!empty($_POST['email']) && !empty($_POST['password'])) {
+            $email = htmlspecialchars($_POST['email']);
+            $password = htmlspecialchars($_POST['password']);
+            $userManager = new UsersManager();
+            $user = $userManager->getUser($email);
+            if ($user) {
+                if ($user->checkPassword($password)) {
+                    session_start();
+                    $_SESSION['auth'] = true;
+                    $_SESSION['isAdmin'] = $user->isAdmin();
+                    $_SESSION['id'] = $user->id();
+                    if ($user->isAdmin()) {
+                        $redirectTo = "?action=dashboard";
+                    } else {
+                        $redirectTo =  "http://blog.test";
+                    }
+                } else {
+                    $redirectTo = "?action=login&authentication=failed&email=$email";
+                }
+            } else {
+                $redirectTo = "?action=login&authentication=failed";
+            }
+        } else {
+            $redirectTo = "?action=login&authentication=empty";
+        }
+        header("Location: $redirectTo");
+        exit;
+    }
+
+    public function dashboard()
+    {
+        session_start();
+        if ($_SESSION['isAdmin']) {
+            include '../views/dashboard.php';
+        } else {
+            $redirectTo = "?action=error&message=403";
+            header("Location: $redirectTo");
+            exit;
+        }
+    }
+
+    public function logout()
+    {
+        session_start();
+        session_destroy();
+        header('Location: http://blog.test');
     }
 }

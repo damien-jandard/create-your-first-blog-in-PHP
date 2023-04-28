@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Erreur 404</title>
+    <title>Dashboard</title>
     <!-- Favicon-->
     <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
     <!-- Font Awesome icons (free version)-->
@@ -30,44 +30,27 @@
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="/">Accueil</a></li>
+                    <?php
+                    if (!empty($_SESSION)) {
+                        if ($_SESSION['auth'] === true) {
+                            echo '<li class="nav-item mx-0 mx-lg-1"><a class="btn btn-outline-light btn-social mx-1" title="Se déconnecter" href="?action=logout"><i class="fa-solid fa-right-from-bracket"></i></a></li>';
+                        }
+                    }
+                    ?>
                 </ul>
             </div>
         </div>
     </nav>
-    <!-- Error Section-->
+    <!-- Login Section-->
     <section class="masthead page-section" id="register">
         <div class="container">
-            <!-- Contact Section Heading-->
-            <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Oops !</h2>
+            <!-- Login Section Heading-->
+            <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Dashboard</h2>
             <!-- Icon Divider-->
             <div class="divider-custom">
                 <div class="divider-custom-line"></div>
                 <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
                 <div class="divider-custom-line"></div>
-            </div>
-            <!-- Error detail-->
-            <div class="row">
-                <div class="col-lg-4 ms-auto">
-                    <p class="lead pt-5">
-                        <?php
-                        if (isset($_GET['message'])) {
-                            if ($_GET['message'] === '403') {
-                                echo "Nous sommes désolés, mais vous n'avez pas accès à cette page ou cette ressource.";
-                            } else {
-                                echo $_GET['message'];
-                            }
-                        } else {
-                            echo "La page que vous recherchez semble introuvable.";
-                        }
-                        ?>
-                    </p>
-                    <p class="lead">
-                        Nous vous invitons à réessayer ultérieurement et à prendre contact avec nous si le problème persiste.
-                    </p>
-                </div>
-                <div class="col-lg-4 me-auto">
-                    <img class="masthead-avatar" src="assets/img/cloudy.png" alt="Cloudy">
-                </div>
             </div>
         </div>
     </section>
@@ -92,8 +75,16 @@
                 <!-- Footer About Text-->
                 <div class="col-lg-4">
                     <h4 class="text-uppercase mb-4">Administration</h4>
-                    <a class="btn btn-outline-light btn-social mx-1" title="S'enregistrer" href="?action=register"><i class="fa-solid fa-user-plus"></i></a>
-                    <a class="btn btn-outline-light btn-social mx-1" title="Se connecter" href="?action=login"><i class="fa-solid fa-lock"></i></a>
+                    <?php
+                    if (!empty($_SESSION)) {
+                        if ($_SESSION['auth'] === true) {
+                            echo '<a class="btn btn-outline-light btn-social mx-1" title="Se déconnecter" href="?action=logout"><i class="fa-solid fa-right-from-bracket"></i></a>';
+                        }
+                    } else {
+                        echo '<a class="btn btn-outline-light btn-social mx-1" title="S\'enregistrer" href="?action=register"><i class="fa-solid fa-user-plus"></i></a>';
+                        echo '<a class="btn btn-outline-light btn-social mx-1" title="Se connecter" href="?action=login"><i class="fa-solid fa-lock"></i></a>';
+                    }
+                    ?>
                 </div>
             </div>
         </div>
@@ -102,11 +93,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Core theme JS-->
     <script src="js/scripts.js"></script>
-    <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
-    <!-- * *                               SB Forms JS                               * *-->
-    <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
-    <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
-    <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
 </body>
 
 </html>

@@ -19,11 +19,12 @@ class User
     public function __construct(array $data)
     {
         foreach ($data as $key => $value) {
-            if (method_exists($this, 'set' . ucfirst($key))) {
-                $method = 'set' . ucfirst($key);
+            $correctKey = snakeToCamel($key);
+            $method = 'set' . ucfirst($correctKey);
+            if (method_exists($this, $method)) {
                 $this->$method($value);
             } else {
-                $this->$key = $value;
+                $this->$correctKey = $value;
             }
         }
     }
@@ -71,5 +72,15 @@ class User
     public function comments()
     {
         return $this->comments;
+    }
+
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = new DateTime($createdAt);
+    }
+
+    public function checkPassword(string $password): bool
+    {
+        return (!empty($this->password()) && password_verify($password, $this->password()));
     }
 }

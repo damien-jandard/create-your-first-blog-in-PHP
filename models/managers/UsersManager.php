@@ -29,4 +29,13 @@ class UsersManager extends Manager
         $result = $request->fetch(PDO::FETCH_ASSOC);
         return $result;
     }
+
+    public function getUser(string $email)
+    {
+        $query = 'SELECT * FROM users WHERE email=? AND status=1';
+        $request = $this->pdo->prepare($query);
+        $request->execute([$email]);
+        $result = $request->fetch(PDO::FETCH_ASSOC);
+        return !empty($result) ? new User($result) : false;
+    }
 }

@@ -51,7 +51,7 @@
                     <!-- * * * * * * * * * * * * * * *-->
                     <!-- * * Login Form * *-->
                     <!-- * * * * * * * * * * * * * * *-->
-                    <form id="loginForm" method="post" action="?action=adduser">
+                    <form id="loginForm" method="post" action="?action=postlogin">
                         <!-- Email address input-->
                         <div class="form-floating mb-3">
                             <input class="form-control" id="email" name="email" type="email" placeholder="name@example.com" value="<?php if (isset($_GET['email'])) echo $_GET['email']  ?>" />
@@ -72,6 +72,13 @@
                             echo '<div class="alert alert-warning mt-3" role="alert">Merci pour votre inscription. Pensez à activer votre compte en cliquant sur le lien envoyé par email</div>';
                         } elseif ($_GET['activate'] === 'checked') {
                             echo '<div class="alert alert-success mt-3" role="alert">Votre compte est désormais activé. Vous pouvez dès à présent vous connecter</div>';
+                        }
+                    }
+                    if (isset($_GET['authentication'])) {
+                        if ($_GET['authentication'] === 'failed') {
+                            echo '<div class="alert alert-danger mt-3" role="alert">Utilisateur ou mot de passe incorrect.</div>';
+                        } elseif ($_GET['authentication'] === 'empty') {
+                            echo '<div class="alert alert-danger mt-3" role="alert">Utilisateur ou mot de passe incorrect.</div>';
                         }
                     }
                     ?>
@@ -110,11 +117,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Core theme JS-->
     <script src="js/scripts.js"></script>
-    <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
-    <!-- * *                               SB Forms JS                               * *-->
-    <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
-    <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
-    <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
 </body>
 
 </html>

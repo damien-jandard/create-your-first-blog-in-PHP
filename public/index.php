@@ -13,6 +13,16 @@ function dd($data)
     exit;
 }
 
+function camel_to_snake($input)
+{
+    return strtolower(preg_replace('/(?<!^)[A-Z]/', '_$0', $input));
+}
+
+function snakeToCamel($input)
+{
+    return lcfirst(str_replace(' ', '', ucwords(str_replace('_', ' ', $input))));
+}
+
 $action = $_GET['action'] ?? '';
 
 switch ($action) {
@@ -39,6 +49,18 @@ switch ($action) {
     case 'login':
         $controller = new UsersController();
         $controller->login();
+        break;
+    case 'postlogin':
+        $controller = new UsersController();
+        $controller->postLogin();
+        break;
+    case 'dashboard':
+        $controller = new UsersController();
+        $controller->dashboard();
+        break;
+    case 'logout':
+        $controller = new UsersController();
+        $controller->logout();
         break;
     default:
         include '../views/error.php';
