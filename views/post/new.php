@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Dashboard</title>
+    <title>Ajouter un article</title>
     <!-- Favicon-->
     <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
     <!-- Font Awesome icons (free version)-->
@@ -41,24 +41,44 @@
             </div>
         </div>
     </nav>
-    <!-- Login Section-->
+    <!-- Add Post Section-->
     <section class="masthead page-section" id="register">
         <div class="container">
-            <!-- Login Section Heading-->
-            <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Dashboard</h2>
+            <!-- Add Post Section Heading-->
+            <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Ajouter un article</h2>
             <!-- Icon Divider-->
             <div class="divider-custom">
                 <div class="divider-custom-line"></div>
                 <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
                 <div class="divider-custom-line"></div>
             </div>
-            <?php
-            if (isset($_GET['message'])) {
-                if ($_GET['message'] === 'postadded') {
-                    echo '<div class="alert alert-success mt-3" role="alert">L\'article a été ajouté avec succès.</div>';
-                }
-            }
-            ?>
+            <!-- Add Post Section Form-->
+            <div class="row justify-content-center">
+                <div class="col-lg-8 col-xl-7">
+                    <!-- * * * * * * * * * * * * * * *-->
+                    <!-- * * Add Post Form * *-->
+                    <!-- * * * * * * * * * * * * * * *-->
+                    <form id="addPostForm" method="post" action="?action=addpost">
+                        <!-- Title input-->
+                        <div class="form-floating mb-3">
+                            <input class="form-control" id="title" name="title" type="text" placeholder="Mon article" value="<?php if (isset($_GET['title'])) echo $_GET['title']  ?>" required />
+                            <label for="title">Titre</label>
+                        </div>
+                        <!-- Chapo input-->
+                        <div class="form-floating mb-3">
+                            <input class="form-control" id="chapo" name="chapo" type="text" placeholder="Mon chapô" value="<?php if (isset($_GET['chapo'])) echo $_GET['chapo']  ?>" />
+                            <label for="chapo">Chapô</label>
+                        </div>
+                        <!-- Content input-->
+                        <div class="form-floating mb-3">
+                            <textarea class="form-control" id="content" name="content" type="text" placeholder="Contenu de mon article" style="height: 20rem" required><?php if (isset($_GET['content'])) echo $_GET['content']  ?></textarea>
+                            <label for="content">Contenu</label>
+                        </div>
+                        <!-- Submit Button-->
+                        <button class="btn btn-primary btn-xl" id="submitButton" type="submit">Ajouter</button>
+                    </form>
+                </div>
+            </div>
         </div>
     </section>
     <!-- Footer-->

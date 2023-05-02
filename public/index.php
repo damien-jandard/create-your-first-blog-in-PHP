@@ -1,6 +1,7 @@
 <?php
 
 use Controllers\HomeController;
+use Controllers\PostsController;
 use Controllers\UsersController;
 
 require '../vendor/autoload.php';
@@ -61,6 +62,14 @@ switch ($action) {
     case 'logout':
         $controller = new UsersController();
         $controller->logout();
+        break;
+    case 'newpost':
+        $controller = new PostsController();
+        $controller->newPost();
+        break;
+    case 'addpost':
+        $controller = new PostsController();
+        $controller->addPost();
         break;
     default:
         include '../views/error.php';
