@@ -9,7 +9,6 @@ class PostsController
 {
     public function newPost()
     {
-        session_start();
         include '../views/post/new.php';
     }
 

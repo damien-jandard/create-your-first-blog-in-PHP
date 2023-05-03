@@ -92,7 +92,6 @@ class UsersController
             $user = $userManager->getUser($email);
             if ($user) {
                 if ($user->checkPassword($password)) {
-                    session_start();
                     $_SESSION['auth'] = true;
                     $_SESSION['isAdmin'] = $user->isAdmin();
                     $_SESSION['id'] = $user->id();
@@ -116,7 +115,6 @@ class UsersController
 
     public function dashboard()
     {
-        session_start();
         if ($_SESSION['isAdmin']) {
             include '../views/dashboard.php';
         } else {
@@ -128,7 +126,6 @@ class UsersController
 
     public function logout()
     {
-        session_start();
         session_destroy();
         header('Location: http://blog.test');
     }

@@ -37,7 +37,6 @@
                     <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="?action=blog">Blog</a>
                     </li>
                     <?php
-                    session_start();
                     if (!empty($_SESSION)) {
                         if ($_SESSION['auth'] === true) {
                             echo '<li class="nav-item mx-0 mx-lg-1"><a class="btn btn-outline-light btn-social mx-1" title="Se déconnecter" href="?action=logout"><i class="fa-solid fa-right-from-bracket"></i></a></li>';
