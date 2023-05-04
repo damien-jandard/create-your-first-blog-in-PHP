@@ -6,13 +6,13 @@ use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\PHPMailer;
 
-class HomeController
+class HomeController extends Controller
 {
     use \App\Mailer;
 
     public function home()
     {
-        include '../views/home.php';
+        return $this->render('home.html.twig');
     }
 
     public function contact()
@@ -25,9 +25,9 @@ class HomeController
                     $message = strip_tags($_POST['message']);
                     if (strlen($message) >= 10 && strlen($message) < 255) {
                         ob_start();
-                        include '../views/contact.php';
+                        $this->render('email/contact.html.twig', ['name' => $name, 'email' => $email, 'message' => $message]);
                         $body = ob_get_clean();
-                        $mailToAdmin = $this->sendEmail('Activation de compte Blog PHP', $email, 'contact@blog.com', $body);
+                        $mailToAdmin = $this->sendEmail('Prise de contact', $email, 'contact@blog.com', $body);
                         if ($mailToAdmin === 'Email envoyé') {
                             $redirectTo = "?status=ended#contact";
                         } else {

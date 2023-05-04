@@ -5,11 +5,11 @@ namespace Controllers;
 use Models\Entities\Post;
 use Models\Managers\PostsManager;
 
-class PostsController
+class PostsController extends Controller
 {
     public function newPost()
     {
-        include '../views/post/new.php';
+        return $this->render('/post/new.html.twig');
     }
 
     public function addPost()

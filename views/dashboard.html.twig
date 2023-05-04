@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Se connecter</title>
+    <title>Dashboard</title>
     <!-- Favicon-->
     <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
     <!-- Font Awesome icons (free version)-->
@@ -30,6 +30,13 @@
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="/">Accueil</a></li>
+                    {% if _session['auth'] == true %}
+                        <li class="nav-item mx-0 mx-lg-1">
+                            <a class="btn btn-outline-light btn-social mx-1" title="Se déconnecter" href="?action=logout">
+                                <i class="fa-solid fa-right-from-bracket"></i>
+                            </a>
+                        </li>
+                    {% endif %}
                 </ul>
             </div>
         </div>
@@ -38,52 +45,16 @@
     <section class="masthead page-section" id="register">
         <div class="container">
             <!-- Login Section Heading-->
-            <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Se connecter</h2>
+            <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Dashboard</h2>
             <!-- Icon Divider-->
             <div class="divider-custom">
                 <div class="divider-custom-line"></div>
                 <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
                 <div class="divider-custom-line"></div>
             </div>
-            <!-- Login Section Form-->
-            <div class="row justify-content-center">
-                <div class="col-lg-8 col-xl-7">
-                    <!-- * * * * * * * * * * * * * * *-->
-                    <!-- * * Login Form * *-->
-                    <!-- * * * * * * * * * * * * * * *-->
-                    <form id="loginForm" method="post" action="?action=postlogin">
-                        <!-- Email address input-->
-                        <div class="form-floating mb-3">
-                            <input class="form-control" id="email" name="email" type="email" placeholder="name@example.com" value="<?php if (isset($_GET['email'])) echo $_GET['email']  ?>" />
-                            <label for="email">Email</label>
-                        </div>
-                        <!-- Password input-->
-                        <div class="form-floating mb-3">
-                            <input class="form-control" id="password" name="password" type="password" placeholder="JdIcA48*" />
-                            <label for="password">Mot de passe</label>
-                        </div>
-                        <p class="mb-3">Pas encore membre ? <a href="?action=register">S'incrire</a></p>
-                        <!-- Submit Button-->
-                        <button class="btn btn-primary btn-xl" id="submitButton" type="submit">Se connecter</button>
-                    </form>
-                    <?php
-                    if (isset($_GET['activate'])) {
-                        if ($_GET['activate'] === 'check') {
-                            echo '<div class="alert alert-warning mt-3" role="alert">Merci pour votre inscription. Pensez à activer votre compte en cliquant sur le lien envoyé par email</div>';
-                        } elseif ($_GET['activate'] === 'checked') {
-                            echo '<div class="alert alert-success mt-3" role="alert">Votre compte est désormais activé. Vous pouvez dès à présent vous connecter</div>';
-                        }
-                    }
-                    if (isset($_GET['authentication'])) {
-                        if ($_GET['authentication'] === 'failed') {
-                            echo '<div class="alert alert-danger mt-3" role="alert">Utilisateur ou mot de passe incorrect.</div>';
-                        } elseif ($_GET['authentication'] === 'empty') {
-                            echo '<div class="alert alert-danger mt-3" role="alert">Utilisateur ou mot de passe incorrect.</div>';
-                        }
-                    }
-                    ?>
-                </div>
-            </div>
+            {% if _get['message'] == 'postadded' %}
+                <div class="alert alert-success mt-3" role="alert">L\'article a été ajouté avec succès.</div>
+            {% endif %}
         </div>
     </section>
     <!-- Footer-->
@@ -107,8 +78,12 @@
                 <!-- Footer About Text-->
                 <div class="col-lg-4">
                     <h4 class="text-uppercase mb-4">Administration</h4>
-                    <a class="btn btn-outline-light btn-social mx-1" title="S'enregistrer" href="?action=register"><i class="fa-solid fa-user-plus"></i></a>
-                    <a class="btn btn-outline-light btn-social mx-1" title="Se connecter" href="?action=login"><i class="fa-solid fa-lock"></i></a>
+                    {% if _session['auth'] == true %}
+                        <a class="btn btn-outline-light btn-social mx-1" title="Se déconnecter" href="?action=logout"><i class="fa-solid fa-right-from-bracket"></i></a>
+                    {% else %}
+                        <a class="btn btn-outline-light btn-social mx-1" title="S\'enregistrer" href="?action=register"><i class="fa-solid fa-user-plus"></i></a>
+                        <a class="btn btn-outline-light btn-social mx-1" title="Se connecter" href="?action=login"><i class="fa-solid fa-lock"></i></a>
+                    {% endif %}
                 </div>
             </div>
         </div>

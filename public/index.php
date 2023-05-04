@@ -1,5 +1,6 @@
 <?php
 
+use Controllers\ErrorController;
 use Controllers\HomeController;
 use Controllers\PostsController;
 use Controllers\UsersController;
@@ -74,6 +75,7 @@ switch ($action) {
         $controller->addPost();
         break;
     default:
-        include '../views/error.php';
+        $controller = new ErrorController();
+        $controller->error();
         break;
 }

@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Ajouter un article</title>
+    <title>Erreur 404</title>
     <!-- Favicon-->
     <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
     <!-- Font Awesome icons (free version)-->
@@ -30,53 +30,41 @@
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="/">Accueil</a></li>
-                    <?php
-                    if (!empty($_SESSION)) {
-                        if ($_SESSION['auth'] === true) {
-                            echo '<li class="nav-item mx-0 mx-lg-1"><a class="btn btn-outline-light btn-social mx-1" title="Se déconnecter" href="?action=logout"><i class="fa-solid fa-right-from-bracket"></i></a></li>';
-                        }
-                    }
-                    ?>
                 </ul>
             </div>
         </div>
     </nav>
-    <!-- Add Post Section-->
+    <!-- Error Section-->
     <section class="masthead page-section" id="register">
         <div class="container">
-            <!-- Add Post Section Heading-->
-            <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Ajouter un article</h2>
+            <!-- Contact Section Heading-->
+            <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Oops !</h2>
             <!-- Icon Divider-->
             <div class="divider-custom">
                 <div class="divider-custom-line"></div>
                 <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
                 <div class="divider-custom-line"></div>
             </div>
-            <!-- Add Post Section Form-->
-            <div class="row justify-content-center">
-                <div class="col-lg-8 col-xl-7">
-                    <!-- * * * * * * * * * * * * * * *-->
-                    <!-- * * Add Post Form * *-->
-                    <!-- * * * * * * * * * * * * * * *-->
-                    <form id="addPostForm" method="post" action="?action=addpost">
-                        <!-- Title input-->
-                        <div class="form-floating mb-3">
-                            <input class="form-control" id="title" name="title" type="text" placeholder="Mon article" value="<?php if (isset($_GET['title'])) echo $_GET['title']  ?>" required />
-                            <label for="title">Titre</label>
-                        </div>
-                        <!-- Chapo input-->
-                        <div class="form-floating mb-3">
-                            <input class="form-control" id="chapo" name="chapo" type="text" placeholder="Mon chapô" value="<?php if (isset($_GET['chapo'])) echo $_GET['chapo']  ?>" />
-                            <label for="chapo">Chapô</label>
-                        </div>
-                        <!-- Content input-->
-                        <div class="form-floating mb-3">
-                            <textarea class="form-control" id="content" name="content" type="text" placeholder="Contenu de mon article" style="height: 20rem" required><?php if (isset($_GET['content'])) echo $_GET['content']  ?></textarea>
-                            <label for="content">Contenu</label>
-                        </div>
-                        <!-- Submit Button-->
-                        <button class="btn btn-primary btn-xl" id="submitButton" type="submit">Ajouter</button>
-                    </form>
+            <!-- Error detail-->
+            <div class="row">
+                <div class="col-lg-4 ms-auto">
+                    <p class="lead pt-5">
+                        {% if _get['message'] %}
+                            {% if _get['message'] == '403' %}
+                                Nous sommes désolés, mais vous n'avez pas accès à cette page ou cette ressource.
+                            {% elseif _get['message'] == 'checked' %}
+                                {{ _get['message'] }}
+                            {% endif %}
+                        {% else %}
+                            La page demandée n'existe pas.
+                        {% endif %}
+                    </p>
+                    <p class="lead">
+                        Nous vous invitons à réessayer ultérieurement et à prendre contact avec nous si le problème persiste.
+                    </p>
+                </div>
+                <div class="col-lg-4 me-auto">
+                    <img class="masthead-avatar" src="assets/img/cloudy.png" alt="Cloudy">
                 </div>
             </div>
         </div>
@@ -102,16 +90,8 @@
                 <!-- Footer About Text-->
                 <div class="col-lg-4">
                     <h4 class="text-uppercase mb-4">Administration</h4>
-                    <?php
-                    if (!empty($_SESSION)) {
-                        if ($_SESSION['auth'] === true) {
-                            echo '<a class="btn btn-outline-light btn-social mx-1" title="Se déconnecter" href="?action=logout"><i class="fa-solid fa-right-from-bracket"></i></a>';
-                        }
-                    } else {
-                        echo '<a class="btn btn-outline-light btn-social mx-1" title="S\'enregistrer" href="?action=register"><i class="fa-solid fa-user-plus"></i></a>';
-                        echo '<a class="btn btn-outline-light btn-social mx-1" title="Se connecter" href="?action=login"><i class="fa-solid fa-lock"></i></a>';
-                    }
-                    ?>
+                    <a class="btn btn-outline-light btn-social mx-1" title="S'enregistrer" href="?action=register"><i class="fa-solid fa-user-plus"></i></a>
+                    <a class="btn btn-outline-light btn-social mx-1" title="Se connecter" href="?action=login"><i class="fa-solid fa-lock"></i></a>
                 </div>
             </div>
         </div>

@@ -5,14 +5,13 @@ namespace Controllers;
 use Models\Entities\User;
 use Models\Managers\UsersManager;
 
-class UsersController
+class UsersController extends Controller
 {
     use \App\Mailer;
 
     public function register()
     {
-        include
-            '../views/register.php';
+        return $this->render('register.html.twig');
     }
 
     public function addUser()
@@ -37,7 +36,7 @@ class UsersController
                             $userManager->register($user);
                             ob_start();
                             $url = "http://blog.test/?action=registered&email=$email&token=$token";
-                            include '../views/email.php';
+                            $this->render('email/activation.html.twig', ['url' => $url]);
                             $body = ob_get_clean();
                             $mailToUser = $this->sendEmail('Activation de compte Blog PHP', $email, 'contact@blog.com', $body);
                             if ($mailToUser === 'Email envoyé') {
@@ -80,7 +79,7 @@ class UsersController
 
     public function login()
     {
-        include '../views/login.php';
+        return $this->render('login.html.twig');
     }
 
     public function postLogin()
@@ -116,7 +115,7 @@ class UsersController
     public function dashboard()
     {
         if ($_SESSION['isAdmin']) {
-            include '../views/dashboard.php';
+            return $this->render('dashboard.html.twig');
         } else {
             $redirectTo = "?action=error&message=403";
             header("Location: $redirectTo");
