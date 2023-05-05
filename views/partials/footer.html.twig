@@ -1,0 +1,41 @@
+<!-- Footer-->
+<footer class="footer text-center">
+    <div class="container">
+        <div
+            class="row">
+            <!-- Footer Location-->
+            <div class="col-lg-4 mb-5 mb-lg-0">
+                <h4 class="text-uppercase mb-4">Localisation</h4>
+                <p class="lead mb-0">
+                    01140 SAINT DIDIER SUR CHALARONNE
+                </p>
+            </div>
+            <!-- Footer Social Icons-->
+            <div class="col-lg-4 mb-5 mb-lg-0">
+                <h4 class="text-uppercase mb-4">Mes réseaux</h4>
+                <a class="btn btn-outline-light btn-social mx-1" href="#!">
+                    <i class="fab fa-fw fa-github"></i>
+                </a>
+                <a class="btn btn-outline-light btn-social mx-1" href="#!">
+                    <i class="fab fa-fw fa-twitter"></i>
+                </a>
+                <a class="btn btn-outline-light btn-social mx-1" href="#!">
+                    <i class="fab fa-fw fa-linkedin-in"></i>
+                </a>
+            </div>
+            <!-- Footer About Text-->
+            <div class="col-lg-4">
+                <h4 class="text-uppercase mb-4">Administration</h4>
+                {% if _session['auth'] == true %}
+                    {% if _session['isAdmin'] == true %}
+                        <a class="btn btn-outline-light btn-social mx-1" title="Dashboard" href="?action=dashboard"><i class="fa-solid fa-toolbox"></i></a>
+                    {% endif %}
+                    <a class="btn btn-outline-light btn-social mx-1" title="Se déconnecter" href="?action=logout"><i class="fa-solid fa-right-from-bracket"></i></a>
+                {% else %}
+                    <a class="btn btn-outline-light btn-social mx-1" title="S\'enregistrer" href="?action=register"><i class="fa-solid fa-user-plus"></i></a>
+                    <a class="btn btn-outline-light btn-social mx-1" title="Se connecter" href="?action=login"><i class="fa-solid fa-lock"></i></a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</footer>

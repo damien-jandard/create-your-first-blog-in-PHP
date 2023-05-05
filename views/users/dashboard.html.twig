@@ -1,0 +1,20 @@
+{% extends "layout.html.twig" %}
+
+{% block body %}
+    <!-- Dashboard Section-->
+    <section class="masthead page-section" id="register">
+        <div class="container">
+            <!-- Dashboard Section Heading-->
+            <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Dashboard</h2>
+            <!-- Icon Divider-->
+            <div class="divider-custom">
+                <div class="divider-custom-line"></div>
+                <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+                <div class="divider-custom-line"></div>
+            </div>
+            {% if _get['message'] == 'postadded' %}
+                <div class="alert alert-success mt-3" role="alert">L\'article a été ajouté avec succès.</div>
+            {% endif %}
+        </div>
+    </section>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends "layout.html.twig" %}
+
+{% block body %}
+    <!-- Error Section-->
+    <section class="masthead page-section" id="register">
+        <div class="container">
+            <!-- Contact Section Heading-->
+            <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Oops !</h2>
+            <!-- Icon Divider-->
+            <div class="divider-custom">
+                <div class="divider-custom-line"></div>
+                <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+                <div class="divider-custom-line"></div>
+            </div>
+            <!-- Error detail-->
+            <div class="row">
+                <div class="col-lg-4 ms-auto">
+                    <p class="lead pt-5">
+                        {% if _get['message'] %}
+                            {% if _get['message'] == '403' %}
+                                Nous sommes désolés, mais vous n'avez pas accès à cette page ou cette ressource.
+                            {% elseif _get['message'] == 'checked' %}
+                                {{ _get['message'] }}
+                            {% endif %}
+                        {% else %}
+                            La page demandée n'existe pas.
+                        {% endif %}
+                    </p>
+                    <p class="lead">
+                        Nous vous invitons à réessayer ultérieurement et à prendre contact avec nous si le problème persiste.
+                    </p>
+                </div>
+                <div class="col-lg-4 me-auto">
+                    <img class="masthead-avatar" src="assets/img/cloudy.png" alt="Cloudy">
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

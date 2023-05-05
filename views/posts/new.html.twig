@@ -1,0 +1,44 @@
+{% extends "layout.html.twig" %}
+
+{% block body %}
+    <!-- Add Post Section-->
+    <section class="masthead page-section" id="register">
+        <div class="container">
+            <!-- Add Post Section Heading-->
+            <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Ajouter un article</h2>
+            <!-- Icon Divider-->
+            <div class="divider-custom">
+                <div class="divider-custom-line"></div>
+                <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+                <div class="divider-custom-line"></div>
+            </div>
+            <!-- Add Post Section Form-->
+            <div class="row justify-content-center">
+                <div class="col-lg-8 col-xl-7">
+                    <!-- * * * * * * * * * * * * * * *-->
+                    <!-- * * Add Post Form * *-->
+                    <!-- * * * * * * * * * * * * * * *-->
+                    <form id="addPostForm" method="post" action="?action=addpost">
+                        <!-- Title input-->
+                        <div class="form-floating mb-3">
+                            <input class="form-control" id="title" name="title" type="text" placeholder="Mon article" {% if _get['title'] %} value={{ _get['title'] }} {% endif %} required />
+                            <label for="title">Titre</label>
+                        </div>
+                        <!-- Chapo input-->
+                        <div class="form-floating mb-3">
+                            <input class="form-control" id="chapo" name="chapo" type="text" placeholder="Mon chapô" {% if _get['chapo'] %} value={{ _get['chapo'] }} {% endif %} />
+                            <label for="chapo">Chapô</label>
+                        </div>
+                        <!-- Content input-->
+                        <div class="form-floating mb-3">
+                            <textarea class="form-control" id="content" name="content" type="text" placeholder="Contenu de mon article" style="height: 20rem" required>{% if _get['content'] %} {{ _get['content'] }} {% endif %}</textarea>
+                            <label for="content">Contenu</label>
+                        </div>
+                        <!-- Submit Button-->
+                        <button class="btn btn-primary btn-xl" id="submitButton" type="submit">Ajouter</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

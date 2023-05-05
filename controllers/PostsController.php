@@ -9,7 +9,7 @@ class PostsController extends Controller
 {
     public function newPost()
     {
-        return $this->render('/post/new.html.twig');
+        return $this->render('/posts/new.html.twig');
     }
 
     public function addPost()

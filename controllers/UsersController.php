@@ -11,7 +11,7 @@ class UsersController extends Controller
 
     public function register()
     {
-        return $this->render('register.html.twig');
+        return $this->render('users/register.html.twig');
     }
 
     public function addUser()
@@ -79,7 +79,7 @@ class UsersController extends Controller
 
     public function login()
     {
-        return $this->render('login.html.twig');
+        return $this->render('users/login.html.twig');
     }
 
     public function postLogin()
@@ -115,7 +115,7 @@ class UsersController extends Controller
     public function dashboard()
     {
         if ($_SESSION['isAdmin']) {
-            return $this->render('dashboard.html.twig');
+            return $this->render('users/dashboard.html.twig');
         } else {
             $redirectTo = "?action=error&message=403";
             header("Location: $redirectTo");
