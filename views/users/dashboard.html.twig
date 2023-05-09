@@ -12,9 +12,119 @@
                 <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
                 <div class="divider-custom-line"></div>
             </div>
-            {% if _get['message'] == 'postadded' %}
-                <div class="alert alert-success mt-3" role="alert">L\'article a été ajouté avec succès.</div>
-            {% endif %}
+        </div>
+        <div class="container">
+            <div class="col">
+                <div class="row">
+                    <h3>Gestion des articles</h3>
+                    <form id="newPostForm" method="post" action="?action=newpost">
+                        <button class="btn btn-primary my-3" id="submitButton" type="submit">Ajouter un article</button>
+                    </form>
+                    {% if _get['message'] == 'postadded' %}
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <i class="fa-solid fa-check me-2"></i>L'article a été ajouté avec succès.
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="row mb-4">
+                    <div class="table-responsive">
+                        <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Titre</th>
+                                <th scope="col">Auteur</th>
+                                <th scope="col">Date</th>
+                                <th colspan="2" scope="col text-center">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">1</th>
+                                <td>Article 1</td>
+                                <td>admin@blog.com</td>
+                                <td>01/04/2023</td>
+                                <td><a class="btn btn-sm" href="?action=editpost&id=1"><i class="fa-solid fa-pen-to-square me-2"></i>Editer</a></td>
+                                <td><a class="btn btn-sm" href="?action=deletepost&id=1"><i class="fa-solid fa-trash me-2"></i>Supprimer</a></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">2</th>
+                                <td>Article 2</td>
+                                <td>admin@blog.com</td>
+                                <td>15/04/2023</td>
+                                <td><a class="btn btn-sm" href="?action=editpost&id=2"><i class="fa-solid fa-pen-to-square me-2"></i>Editer</a></td>
+                                <td><a class="btn btn-sm" href="?action=deletepost&id=2"><i class="fa-solid fa-trash me-2"></i>Supprimer</a></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">3</th>
+                                <td>Article 3</td>
+                                <td>admin@blog.com</td>
+                                <td>30/04/2023</td>
+                                <td><a class="btn btn-sm" href="?action=editpost&id=3"><i class="fa-solid fa-pen-to-square me-2"></i>Editer</a></td>
+                                <td><a class="btn btn-sm" href="?action=deletepost&id=3"><i class="fa-solid fa-trash me-2"></i>Supprimer</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    </div>
+                </div>
+                <div class="row">
+                    <h3>Gestion des commentaires</h3>
+                    {% if _get['message'] == 'commentapproved' %}
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <i class="fa-solid fa-check me-2"></i>Le commentaire a été accepté.
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endif %}
+                    {% if _get['message'] == 'commentdenied' %}
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <i class="fa-solid fa-ban me-2"></i>Le commentaire a été refusé.
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="row mb-4">
+                    <div class="table-responsive">
+                        <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Message</th>
+                                <th scope="col">Auteur</th>
+                                <th scope="col">Date</th>
+                                <th colspan="2" scope="col text-center">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">1</th>
+                                <td>Commentaire 1</td>
+                                <td>admin@blog.com</td>
+                                <td>01/04/2023</td>
+                                <td><a class="btn btn-sm" href="?action=approvecomment&id=1"><i class="fa-solid fa-check me-2"></i>Accepter</a></td>
+                                <td><a class="btn btn-sm" href="?action=rejectcomment&id=1"><i class="fa-solid fa-ban me-2"></i>Refuser</a></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">2</th>
+                                <td>Commentaire 2</td>
+                                <td>admin@blog.com</td>
+                                <td>15/04/2023</td>
+                                <td><a class="btn btn-sm" href="?action=approvecomment&id=2"><i class="fa-solid fa-check me-2"></i>Accepter</a></td>
+                                <td><a class="btn btn-sm" href="?action=rejectcomment&id=2"><i class="fa-solid fa-ban me-2"></i>Refuser</a></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">3</th>
+                                <td>Commentaire 3</td>
+                                <td>admin@blog.com</td>
+                                <td>30/04/2023</td>
+                                <td><a class="btn btn-sm" href="?action=approvecomment&id=3"><i class="fa-solid fa-check me-2"></i>Accepter</a></td>
+                                <td><a class="btn btn-sm" href="?action=rejectcomment&id=3"><i class="fa-solid fa-ban me-2"></i>Refuser</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 {% endblock %}
