@@ -9,7 +9,7 @@ class CommentsController
 {
     public function defineStatusComment()
     {
-        if (isset($_GET['id']) && $_GET['id'] > 0) {
+        if (!empty($_GET['id']) && $_GET['id'] > 0) {
             $id = intval($_GET['id']);
             if ($_GET['action'] === 'approvecomment') {
                 $status = 1;
