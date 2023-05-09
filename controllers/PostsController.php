@@ -30,4 +30,18 @@ class PostsController extends Controller
         header("Location: $redirectTo");
         exit;
     }
+
+    public function deletePost()
+    {
+        if (!empty($_GET['id']) && $_GET['id'] > 0) {
+            $id = intval($_GET['id']);
+            $postManager = new PostsManager();
+            $postManager->deletePost($id);
+            $redirectTo = "?action=dashboard&message=postdeleted";
+        } else {
+            $redirectTo = "?action=error&message=Aucun identifiant d'article envoyé";
+        }
+        header("Location: $redirectTo");
+        exit;
+    }
 }

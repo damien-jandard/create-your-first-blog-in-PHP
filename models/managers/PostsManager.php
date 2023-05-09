@@ -22,4 +22,13 @@ class PostsManager extends Manager
         $result = $request->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     }
+
+    public function deletePost(int $id)
+    {
+        $this->disableForeignKey();
+        $query = 'DELETE FROM posts WHERE id=?';
+        $request = $this->pdo->prepare($query);
+        $request->execute([$id]);
+        $this->enableForeignKey();
+    }
 }

@@ -26,6 +26,12 @@
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                     {% endif %}
+                    {% if _get['message'] == 'postdeleted' %}
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <i class="fa-solid fa-check me-2"></i>L'article a été supprimé avec succès.
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endif %}
                 </div>
                 <div class="row mb-4">
                     <div class="table-responsive">
