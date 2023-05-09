@@ -40,30 +40,16 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>Article 1</td>
-                                <td>admin@blog.com</td>
-                                <td>01/04/2023</td>
-                                <td><a class="btn btn-sm" href="?action=editpost&id=1"><i class="fa-solid fa-pen-to-square me-2"></i>Editer</a></td>
-                                <td><a class="btn btn-sm" href="?action=deletepost&id=1"><i class="fa-solid fa-trash me-2"></i>Supprimer</a></td>
-                            </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>Article 2</td>
-                                <td>admin@blog.com</td>
-                                <td>15/04/2023</td>
-                                <td><a class="btn btn-sm" href="?action=editpost&id=2"><i class="fa-solid fa-pen-to-square me-2"></i>Editer</a></td>
-                                <td><a class="btn btn-sm" href="?action=deletepost&id=2"><i class="fa-solid fa-trash me-2"></i>Supprimer</a></td>
-                            </tr>
-                            <tr>
-                                <th scope="row">3</th>
-                                <td>Article 3</td>
-                                <td>admin@blog.com</td>
-                                <td>30/04/2023</td>
-                                <td><a class="btn btn-sm" href="?action=editpost&id=3"><i class="fa-solid fa-pen-to-square me-2"></i>Editer</a></td>
-                                <td><a class="btn btn-sm" href="?action=deletepost&id=3"><i class="fa-solid fa-trash me-2"></i>Supprimer</a></td>
-                            </tr>
+                            {% for post in posts %}
+                                <tr>
+                                    <th scope="row">{{ post.id }}</th>
+                                    <td>{{ post.title }}</td>
+                                    <td>{{ post.email }}</td>
+                                    <td>Le {{ post.created_at|date("d/m/Y à H:i:s") }}</td>
+                                    <td><a class="btn btn-sm" href="?action=editpost&id={{ post.id }}"><i class="fa-solid fa-pen-to-square me-2"></i>Editer</a></td>
+                                    <td><button class="btn btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#postModal{{ post.id }}"><i class="fa-solid fa-trash me-2"></i>Supprimer</button></td>
+                                </tr>
+                            {% endfor %}
                         </tbody>
                     </table>
                     </div>
@@ -83,6 +69,7 @@
                         </div>
                     {% endif %}
                 </div>
+
                 <div class="row mb-4">
                     <div class="table-responsive">
                         <table class="table">
@@ -126,5 +113,24 @@
                 </div>
             </div>
         </div>
+        {% for post in posts %}
+            <div class="modal fade" id="postModal{{ post.id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="postModalLabel{{ post.id }}" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="postModalLabel{{ post.id }}">Article n° {{ post.id }}</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        Êtes-vous sûr(e) de vouloir supprimer l'article n° {{ post.id }} ?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fa-solid fa-xmark me-2"></i>Non</button>
+                        <a class="btn btn-danger" href="?action=deletepost&id={{ post.id }}"><i class="fa-solid fa-trash me-2"></i>Oui</a>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
     </section>
 {% endblock %}

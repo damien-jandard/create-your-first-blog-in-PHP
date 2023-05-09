@@ -3,6 +3,7 @@
 namespace Controllers;
 
 use Models\Entities\User;
+use Models\Managers\PostsManager;
 use Models\Managers\UsersManager;
 
 class UsersController extends Controller
@@ -114,7 +115,9 @@ class UsersController extends Controller
 
     public function dashboard()
     {
-        return $this->render('users/dashboard.html.twig');
+        $postManager = new PostsManager();
+        $posts = $postManager->findAllPost();
+        return $this->render('users/dashboard.html.twig', ['posts' => $posts]);
     }
 
     public function logout()
