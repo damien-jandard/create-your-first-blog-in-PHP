@@ -70,10 +70,14 @@ switch ($action) {
         $controller->logout();
         break;
     case 'newpost':
+        $middleware = new AdminMiddleware();
+        $middleware->checkAllowed();
         $controller = new PostsController();
         $controller->newPost();
         break;
     case 'addpost':
+        $middleware = new AdminMiddleware();
+        $middleware->checkAllowed();
         $controller = new PostsController();
         $controller->addPost();
         break;

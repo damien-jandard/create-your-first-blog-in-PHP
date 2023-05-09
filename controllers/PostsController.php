@@ -3,6 +3,7 @@
 namespace Controllers;
 
 use Models\Entities\Post;
+use Models\Entities\User;
 use Models\Managers\PostsManager;
 
 class PostsController extends Controller
@@ -18,7 +19,8 @@ class PostsController extends Controller
             $title = htmlspecialchars($_POST['title']);
             $chapo = htmlspecialchars($_POST['chapo']);
             $content = htmlspecialchars($_POST['content']);
-            $post = new Post(['title' => $title, 'chapo' => $chapo, 'content' => $content]);
+            $user = new User(['id' => $_SESSION['id']]);
+            $post = new Post(['title' => $title, 'chapo' => $chapo, 'content' => $content, 'user' => $user]);
             $postManager = new PostsManager();
             $postManager->addPost($post);
             $redirectTo = "?action=dashboard&message=postadded";
