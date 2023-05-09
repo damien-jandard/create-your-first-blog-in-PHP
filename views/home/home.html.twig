@@ -159,8 +159,7 @@
                     <!-- * * * * * * * * * * * * * * *-->
                     <!-- * * Contact Form * *-->
                     <!-- * * * * * * * * * * * * * * *-->
-                        <form
-                        id="contactForm" method="post" action="?action=contact"> <!-- Name input-->
+                    <form id="contactForm" method="post" action="?action=contact"> <!-- Name input-->
                         <div class="form-floating mb-3">
                             <input class="form-control" id="name" name="name" type="text" placeholder="Entrer votre nom..." {% if _get['name'] %} value={{ _get['name'] }} {% endif %} required/>
                             <label for="name">Nom</label>
