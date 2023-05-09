@@ -1,10 +1,11 @@
 <?php
 
-use Controllers\ErrorController;
 use Controllers\HomeController;
+use Controllers\ErrorController;
 use Controllers\PostsController;
 use Controllers\UsersController;
 use Middlewares\AdminMiddleware;
+use Controllers\CommentsController;
 
 require '../vendor/autoload.php';
 
@@ -80,6 +81,18 @@ switch ($action) {
         $middleware->checkAllowed();
         $controller = new PostsController();
         $controller->addPost();
+        break;
+    case 'approvecomment':
+        $middleware = new AdminMiddleware();
+        $middleware->checkAllowed();
+        $controller = new CommentsController();
+        $controller->defineStatusComment();
+        break;
+    case 'rejectcomment':
+        $middleware = new AdminMiddleware();
+        $middleware->checkAllowed();
+        $controller = new CommentsController();
+        $controller->defineStatusComment();
         break;
     default:
         $controller = new ErrorController();

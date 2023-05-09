@@ -37,7 +37,7 @@ class Comment
 
     public function status()
     {
-        return $this->status;
+        return intval($this->status);
     }
 
     public function createdAt()

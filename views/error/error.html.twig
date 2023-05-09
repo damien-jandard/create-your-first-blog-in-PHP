@@ -19,7 +19,7 @@
                         {% if _get['message'] %}
                             {% if _get['message'] == '403' %}
                                 Nous sommes désolés, mais vous n'avez pas accès à cette page ou cette ressource.
-                            {% elseif _get['message'] == 'checked' %}
+                            {% else %}
                                 {{ _get['message'] }}
                             {% endif %}
                         {% else %}
