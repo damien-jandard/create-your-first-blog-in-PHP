@@ -3,6 +3,7 @@
 namespace Controllers;
 
 use Models\Entities\User;
+use Models\Managers\CommentsManager;
 use Models\Managers\PostsManager;
 use Models\Managers\UsersManager;
 
@@ -117,7 +118,9 @@ class UsersController extends Controller
     {
         $postManager = new PostsManager();
         $posts = $postManager->findAllPost();
-        return $this->render('users/dashboard.html.twig', ['posts' => $posts]);
+        $commentManager = new CommentsManager();
+        $comments = $commentManager->findAllPendingComments();
+        return $this->render('users/dashboard.html.twig', ['posts' => $posts, 'comments' => $comments]);
     }
 
     public function logout()
