@@ -11,7 +11,8 @@
         "psr-4": {
             "Controllers\\": "controllers/",
             "Models\\": "models/",
-            "App\\": "app/"
+            "App\\": "app/",
+            "Middlewares\\": "middlewares/"
         }
     },
     "require": {

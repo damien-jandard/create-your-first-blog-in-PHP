@@ -114,13 +114,7 @@ class UsersController extends Controller
 
     public function dashboard()
     {
-        if ($_SESSION['isAdmin']) {
-            return $this->render('users/dashboard.html.twig');
-        } else {
-            $redirectTo = "?action=error&message=403";
-            header("Location: $redirectTo");
-            exit;
-        }
+        return $this->render('users/dashboard.html.twig');
     }
 
     public function logout()

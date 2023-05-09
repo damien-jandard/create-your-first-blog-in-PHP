@@ -4,6 +4,7 @@ use Controllers\ErrorController;
 use Controllers\HomeController;
 use Controllers\PostsController;
 use Controllers\UsersController;
+use Middlewares\AdminMiddleware;
 
 require '../vendor/autoload.php';
 
@@ -59,6 +60,8 @@ switch ($action) {
         $controller->postLogin();
         break;
     case 'dashboard':
+        $middleware = new AdminMiddleware();
+        $middleware->checkAllowed();
         $controller = new UsersController();
         $controller->dashboard();
         break;
