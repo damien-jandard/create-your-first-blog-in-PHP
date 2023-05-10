@@ -65,4 +65,9 @@ class Comment
     {
         return $this->post;
     }
+
+    public function setCommentId($id)
+    {
+        $this->id = $id;
+    }
 }
