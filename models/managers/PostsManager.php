@@ -25,10 +25,8 @@ class PostsManager extends Manager
 
     public function deletePost(int $id)
     {
-        $this->disableForeignKey();
         $query = 'DELETE FROM posts WHERE id=?';
         $request = $this->pdo->prepare($query);
         $request->execute([$id]);
-        $this->enableForeignKey();
     }
 }
