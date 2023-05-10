@@ -41,6 +41,11 @@ class Comment
         return $this->status;
     }
 
+    public function setStatus(bool $status)
+    {
+        $this->status = $status;
+    }
+
     public function createdAt()
     {
         return $this->createdAt;

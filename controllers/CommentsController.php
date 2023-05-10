@@ -18,14 +18,16 @@ class CommentsController extends Controller
     {
         if (!empty($_GET['id']) && $_GET['id'] > 0) {
             $id = intval($_GET['id']);
+            $comment = $this->commentManager->getComment($id);
             if ($_GET['action'] === 'approvecomment') {
-                $status = 1;
+                $status = true;
                 $message = "commentapproved";
             }else {
-                $status = 0;
+                $status = false;
                 $message = "commentdenied";
             }
-            $this->commentManager->updateCommentStatus($id, $status);
+            $comment->setStatus($status);
+            $this->commentManager->updateComment($comment);
             $redirectTo = "?action=dashboard&message=$message";
         }else {
             $redirectTo = "?action=error&message=Aucun identifiant de commentaire envoyé";

@@ -16,10 +16,18 @@ class CommentsManager extends Manager
         return $result;
     }
 
-    public function updateCommentStatus(int $id, int $status): void
+    public function getComment(int $id): Comment
     {
-        $query = 'UPDATE comments SET status=? WHERE id=?';
+        $query = 'SELECT * FROM comments WHERE id=?';
         $request = $this->pdo->prepare($query);
-        $request->execute([$status, $id]);
+        $request->execute([$id]);
+        return new Comment($request->fetch(PDO::FETCH_ASSOC));
+    }
+
+    public function updateComment(Comment $comment): void
+    {
+        $query = 'UPDATE comments SET status=?, message=? WHERE id=?';
+        $request = $this->pdo->prepare($query);
+        $request->execute([(int)$comment->status(), $comment->message(), $comment->id()]);
     }
 }
