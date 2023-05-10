@@ -8,6 +8,14 @@ use Models\Managers\PostsManager;
 
 class PostsController extends Controller
 {
+    private $postManager;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->postManager = new PostsManager();
+    }
+
     public function newPost()
     {
         return $this->render('/posts/new.html.twig');
@@ -21,8 +29,7 @@ class PostsController extends Controller
             $content = htmlspecialchars($_POST['content']);
             $user = new User(['id' => $_SESSION['id']]);
             $post = new Post(['title' => $title, 'chapo' => $chapo, 'content' => $content, 'user' => $user]);
-            $postManager = new PostsManager();
-            $postManager->addPost($post);
+            $this->postManager->addPost($post);
             $redirectTo = "?action=dashboard&message=postadded";
         } else {
             $redirectTo = "?action=newpost&error=1&title=" . $_POST['title'] . "&chapo=" . $_POST['chapo'] . "&content=" . $_POST['content'];
@@ -35,8 +42,7 @@ class PostsController extends Controller
     {
         if (!empty($_GET['id']) && $_GET['id'] > 0) {
             $id = intval($_GET['id']);
-            $postManager = new PostsManager();
-            $postManager->deletePost($id);
+            $this->postManager->deletePost($id);
             $redirectTo = "?action=dashboard&message=postdeleted";
         } else {
             $redirectTo = "?action=error&message=Aucun identifiant d'article envoyé";

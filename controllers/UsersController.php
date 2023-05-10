@@ -11,6 +11,18 @@ class UsersController extends Controller
 {
     use \App\Mailer;
 
+    private $userManager;
+    private $postManager;
+    private $commentManager;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->userManager = new UsersManager();
+        $this->postManager = new PostsManager();
+        $this->commentManager = new CommentsManager();
+    }
+
     public function register()
     {
         return $this->render('users/register.html.twig');
@@ -32,10 +44,9 @@ class UsersController extends Controller
                     } else {
                         $password = password_hash($password, PASSWORD_BCRYPT);
                         $token = bin2hex(openssl_random_pseudo_bytes(16));
-                        $userManager = new UsersManager();
-                        if ($userManager->checkUser($email) === false) {
+                        if ($this->userManager->checkUser($email) === false) {
                             $user = new User(['email' => $email, 'password' => $password, 'token' => $token]);
-                            $userManager->register($user);
+                            $this->userManager->register($user);
                             ob_start();
                             $url = "http://blog.test/?action=registered&email=$email&token=$token";
                             $this->render('email/activation.html.twig', ['url' => $url]);
@@ -69,8 +80,7 @@ class UsersController extends Controller
             $email = htmlspecialchars($_GET['email']);
             $token = htmlspecialchars($_GET['token']);
             $user = new User(['email' => $email, 'token' => $token]);
-            $userManager = new UsersManager();
-            $userManager->registered($user);
+            $this->userManager->registered($user);
             $redirectTo = "?action=login&activate=checked";
         } else {
             $redirectTo = "?";
@@ -89,8 +99,7 @@ class UsersController extends Controller
         if (!empty($_POST['email']) && !empty($_POST['password'])) {
             $email = htmlspecialchars($_POST['email']);
             $password = htmlspecialchars($_POST['password']);
-            $userManager = new UsersManager();
-            $user = $userManager->getUser($email);
+            $user = $this->userManager->getUser($email);
             if ($user) {
                 if ($user->checkPassword($password)) {
                     $_SESSION['auth'] = true;
@@ -116,10 +125,8 @@ class UsersController extends Controller
 
     public function dashboard()
     {
-        $postManager = new PostsManager();
-        $posts = $postManager->findAllPost();
-        $commentManager = new CommentsManager();
-        $comments = $commentManager->findAllPendingComments();
+        $posts = $this->postManager->findAllPost();
+        $comments = $this->commentManager->findAllPendingComments();
         return $this->render('users/dashboard.html.twig', ['posts' => $posts, 'comments' => $comments]);
     }
 
