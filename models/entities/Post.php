@@ -77,4 +77,9 @@ class Post
     {
         return $this->comments;
     }
+
+    public function setPostId($id)
+    {
+        $this->id = $id;
+    }
 }

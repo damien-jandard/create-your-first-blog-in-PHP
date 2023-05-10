@@ -4,6 +4,7 @@ namespace Models\Managers;
 
 use PDO;
 use Models\Entities\Post;
+use Models\Entities\User;
 
 class PostsManager extends Manager
 {
@@ -16,11 +17,17 @@ class PostsManager extends Manager
 
     public function findAllPost()
     {
-        $query = 'SELECT posts.id, posts.title, users.email, posts.created_at FROM posts LEFT JOIN users ON posts.user_id = users.id';
+        $query = 'SELECT posts.id as post_id, posts.title, users.id as user_id, users.email, posts.created_at FROM posts LEFT JOIN users ON posts.user_id = users.id';
         $request = $this->pdo->prepare($query);
         $request->execute();
+        $posts = [];
         $result = $request->fetchAll(PDO::FETCH_ASSOC);
-        return $result;
+        foreach ($result as $data) {
+            $user = new User($data);
+            $post = new Post(array_merge($data, ['user' => $user]));
+            $posts[] = $post;
+        }
+        return $posts;
     }
 
     public function deletePost(int $id)

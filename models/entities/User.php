@@ -79,6 +79,11 @@ class User
         $this->createdAt = new DateTime($createdAt);
     }
 
+    public function setUserId($id)
+    {
+        $this->id = $id;
+    }
+
     public function checkPassword(string $password): bool
     {
         return (!empty($this->password()) && password_verify($password, $this->password()));
