@@ -18,11 +18,12 @@ class Post
     public function __construct(array $data)
     {
         foreach ($data as $key => $value) {
-            if (method_exists($this, 'set' . ucfirst($key))) {
-                $method = 'set' . ucfirst($key);
+            $correctKey = snakeToCamel($key);
+            $method = 'set' . ucfirst($correctKey);
+            if (method_exists($this, $method)) {
                 $this->$method($value);
             } else {
-                $this->$key = $value;
+                $this->$correctKey = $value;
             }
         }
     }
@@ -52,9 +53,19 @@ class Post
         return $this->createdAt;
     }
 
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = new DateTime($createdAt);
+    }
+
     public function updatedAt()
     {
         return $this->updatedAt;
+    }
+
+    public function setUpdatedAt($updatedAt)
+    {
+        $this->createdAt = new DateTime($updatedAt);
     }
 
     public function user()
