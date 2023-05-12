@@ -1,0 +1,41 @@
+{% extends "layout.html.twig" %}
+
+{% block body %}
+    <!-- Blog Section-->
+    <section class="masthead page-section" id="blog">
+        <div class="container">
+            <!-- Blog Section Heading-->
+            <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">{{ post.title }}</h2>
+            <!-- Icon Divider-->
+            <div class="divider-custom">
+                <div class="divider-custom-line"></div>
+                <div class="divider-custom-icon">
+                    <i class="fas fa-star"></i>
+                </div>
+                <div class="divider-custom-line"></div>
+            </div>
+            <!-- Blog Section Content-->
+            <div class="row">
+                <div class="col">
+                    <h3>{{ post.chapo }}</h3>
+                    <p><small class="text-secondary">Par {{ post.email }} {{ post.createdAt|date("\\l\\e d/m/Y \\à H:i:s") }}</small></p>
+                    <p class="lead">{{ post.content }}</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <h4>Commentaires</h4>
+                    {% for comment in comments %}
+                        <div class="card mt-3">
+                            <div class="card-body">
+                                <h5 class="card-subtitle text-primary">{{ comment.email }}</h5>
+                                <p><small class="text-secondary">{{ comment.createdAt|date("\\L\\e d/m/Y \\à H:i:s") }}</small></p>
+                                <p class="card-text">{{ comment.message }}</p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

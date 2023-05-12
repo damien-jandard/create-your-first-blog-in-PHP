@@ -4,16 +4,19 @@ namespace Controllers;
 
 use Models\Entities\Post;
 use Models\Entities\User;
+use Models\Managers\CommentsManager;
 use Models\Managers\PostsManager;
 
 class PostsController extends Controller
 {
     private $postManager;
+    private $commmentsManager;
 
     public function __construct()
     {
         parent::__construct();
         $this->postManager = new PostsManager();
+        $this->commmentsManager = new CommentsManager;
     }
 
     public function newPost()
@@ -55,5 +58,19 @@ class PostsController extends Controller
     {
         $posts = $this->postManager->findAllPost();
         return $this->render('/posts/blog.html.twig', ['posts' => $posts]);
+    }
+
+    public function blogpost()
+    {
+        if (!empty($_GET['id']) && $_GET['id'] > 0) {
+            $id = intval($_GET['id']);
+            $post = $this->postManager->findPost($id);
+            $comments = $this->commmentsManager->findAllCommentsOfBlogPost($id);
+            return $this->render('/posts/blogpost.html.twig', compact('post', 'comments'));
+        } else {
+            $redirectTo = "?action=error&message=Aucun identifiant d'article envoyé";
+            header("Location: $redirectTo");
+            exit;
+        }
     }
 }

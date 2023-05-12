@@ -15,6 +15,17 @@ class PostsManager extends Manager
         $request->execute([$post->user()->id(), $post->title(), $post->chapo(), $post->content()]);
     }
 
+    public function findPost(int $id)
+    {
+        $query = 'SELECT posts.id as post_id, posts.title, posts.chapo, posts.content, posts.created_at, users.id as user_id, users.email FROM posts LEFT JOIN users ON posts.user_id = users.id WHERE posts.id=?';
+        $request = $this->pdo->prepare($query);
+        $request->execute([$id]);
+        $result = $request->fetch(PDO::FETCH_ASSOC);
+        $user = new User($result);
+        $post = new Post(array_merge($result, ['user' => $user]));
+        return $post;
+    }
+
     public function findAllPost()
     {
         $query = 'SELECT posts.id as post_id, posts.title, posts.content, users.id as user_id, users.email, posts.created_at FROM posts LEFT JOIN users ON posts.user_id = users.id';

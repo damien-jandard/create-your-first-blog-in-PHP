@@ -5,6 +5,7 @@ namespace Models\Managers;
 use PDO;
 use Models\Entities\User;
 use Models\Entities\Comment;
+use Models\Entities\Post;
 
 class CommentsManager extends Manager
 {
@@ -36,5 +37,21 @@ class CommentsManager extends Manager
         $query = 'UPDATE comments SET status=?, message=? WHERE id=?';
         $request = $this->pdo->prepare($query);
         $request->execute([(int)$comment->status(), $comment->message(), $comment->id()]);
+    }
+
+    public function findAllCommentsOfBlogPost(int $id)
+    {
+        $query = 'SELECT * FROM comments LEFT JOIN users ON comments.user_id=users.id LEFT JOIN posts ON comments.post_id=posts.id WHERE comments.status=1 AND post_id=?';
+        $request = $this->pdo->prepare($query);
+        $request->execute([$id]);
+        $comments = [];
+        $result = $request->fetchAll(PDO::FETCH_ASSOC);
+        foreach ($result as $data) {
+            $user = new User($data);
+            $post = new Post($data);
+            $comment = new Comment(array_merge($data, ['user' => $user], ['post' => $post]));
+            $comments[] = $comment;
+        }
+        return $comments;
     }
 }

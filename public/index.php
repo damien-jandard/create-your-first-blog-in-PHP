@@ -44,6 +44,10 @@ switch ($action) {
         $controller = new PostsController();
         $controller->blog();
         break;
+    case 'blogpost':
+        $controller = new PostsController();
+        $controller->blogpost();
+        break;
     case 'register':
         $controller = new UsersController();
         $controller->register();
