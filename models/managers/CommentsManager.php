@@ -11,7 +11,7 @@ class CommentsManager extends Manager
 {
     public function findAllPendingComments()
     {
-        $query = 'SELECT comments.id as comment_id, SUBSTR(comments.message, 1, 25) AS short_message, comments.message, users.id as user_id, users.email, comments.created_at FROM comments LEFT JOIN users ON comments.user_id = users.id WHERE comments.status=2';
+        $query = 'SELECT comments.id as comment_id, comments.message, users.id as user_id, users.email, comments.created_at FROM comments LEFT JOIN users ON comments.user_id = users.id WHERE comments.status=2';
         $request = $this->pdo->prepare($query);
         $request->execute();
         $comments = [];
