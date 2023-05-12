@@ -50,4 +50,10 @@ class PostsController extends Controller
         header("Location: $redirectTo");
         exit;
     }
+
+    public function blog()
+    {
+        $posts = $this->postManager->findAllPost();
+        return $this->render('/posts/blog.html.twig', ['posts' => $posts]);
+    }
 }

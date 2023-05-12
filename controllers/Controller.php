@@ -4,6 +4,7 @@ namespace Controllers;
 
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
+use Twig\Extra\String\StringExtension;
 
 abstract class Controller
 {
@@ -16,6 +17,7 @@ abstract class Controller
         $this->twig = new Environment($this->loader, [
             'cache' => false,
         ]);
+        $this->twig->addExtension(new StringExtension());
     }
 
     protected function render(string $twigFile, array $parameters = null)

@@ -40,6 +40,10 @@ switch ($action) {
         $controller = new HomeController();
         $controller->contact();
         break;
+    case 'blog':
+        $controller = new PostsController();
+        $controller->blog();
+        break;
     case 'register':
         $controller = new UsersController();
         $controller->register();

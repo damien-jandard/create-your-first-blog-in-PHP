@@ -17,6 +17,7 @@
     },
     "require": {
         "phpmailer/phpmailer": "^6.8",
-        "twig/twig": "^3.5"
+        "twig/twig": "^3.5",
+        "twig/string-extra": "^3.6"
     }
 }

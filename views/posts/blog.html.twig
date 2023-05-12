@@ -1,0 +1,35 @@
+{% extends "layout.html.twig" %}
+
+{% block body %}
+    <!-- Blog Section-->
+    <section class="masthead page-section" id="blog">
+        <div
+            class="container">
+            <!-- Blog Section Heading-->
+            <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Les articles</h2>
+            <!-- Icon Divider-->
+            <div class="divider-custom">
+                <div class="divider-custom-line"></div>
+                <div class="divider-custom-icon">
+                    <i class="fas fa-star"></i>
+                </div>
+                <div class="divider-custom-line"></div>
+            </div>
+            <!-- Blog Section Content-->
+            <div class="row">
+                {% for post in posts %}
+                    <div class="col-md-6 col-lg-4 p-3">
+                        <div class="card">
+                            <div class="card-body text-secondary">
+                                <h5 class="card-title ">{{ post.title }}</h5>
+                                <p class="card-text">{{ post.content|u.truncate(255, '...', false) }}</p>
+                                <p class="card-text"><small class="text-body-secondary">Par {{ post.email }} {{ post.createdAt|date("\\l\\e d/m/Y \\à H:i:s") }}</small></p>
+                                <a href="?action=blogpost&id={{ post.id }}" class="btn btn-primary">Voir plus</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+{% endblock %}
