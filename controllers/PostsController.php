@@ -27,15 +27,46 @@ class PostsController extends Controller
     public function addPost()
     {
         if (!empty($_POST['title']) && !empty($_POST['chapo']) && !empty($_POST['content'])) {
-            $title = htmlspecialchars($_POST['title']);
-            $chapo = htmlspecialchars($_POST['chapo']);
-            $content = htmlspecialchars($_POST['content']);
+            $title = htmlspecialchars($_POST['title'], ENT_NOQUOTES);
+            $chapo = htmlspecialchars($_POST['chapo'], ENT_NOQUOTES);
+            $content = htmlspecialchars($_POST['content'], ENT_NOQUOTES);
             $user = new User(['id' => $_SESSION['id']]);
             $post = new Post(['title' => $title, 'chapo' => $chapo, 'content' => $content, 'user' => $user]);
             $this->postManager->addPost($post);
             $redirectTo = "?action=dashboard&message=postadded";
         } else {
             $redirectTo = "?action=newpost&error=1&title=" . $_POST['title'] . "&chapo=" . $_POST['chapo'] . "&content=" . $_POST['content'];
+        }
+        header("Location: $redirectTo");
+        exit;
+    }
+
+    public function editPost()
+    {
+        if (!empty($_GET['id']) && $_GET['id'] > 0) {
+            $id = intval($_GET['id']);
+            $post = $this->postManager->findPost($id);
+            return $this->render('/posts/edit.html.twig', compact('post'));
+        } else {
+            $redirectTo = "?action=error&message=Aucun identifiant d'article envoyé";
+            header("Location: $redirectTo");
+            exit;
+        }
+    }
+
+    public function savePost()
+    {
+        if (!empty($_POST['id']) && !empty($_POST['title']) && !empty($_POST['chapo']) && !empty($_POST['content'])) {
+            $id = intval($_POST['id']);
+            $title = htmlspecialchars($_POST['title'], ENT_NOQUOTES);
+            $chapo = htmlspecialchars($_POST['chapo'], ENT_NOQUOTES);
+            $content = htmlspecialchars($_POST['content'], ENT_NOQUOTES);
+            $user = new User(['id' => $_SESSION['id']]);
+            $post = new Post(['id' => $id, 'title' => $title, 'chapo' => $chapo, 'content' => $content, 'user' => $user]);
+            $this->postManager->savePost($post);
+            $redirectTo = "?action=dashboard&message=postsaved";
+        } else {
+            $redirectTo = "?action=editpost&id=" . $_POST['id']. "&error=1";
         }
         header("Location: $redirectTo");
         exit;

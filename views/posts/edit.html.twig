@@ -5,7 +5,7 @@
     <section class="masthead page-section" id="register">
         <div class="container">
             <!-- Add Post Section Heading-->
-            <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Ajouter un article</h2>
+            <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Editer un article</h2>
             <!-- Icon Divider-->
             <div class="divider-custom">
                 <div class="divider-custom-line"></div>
@@ -18,24 +18,29 @@
                     <!-- * * * * * * * * * * * * * * *-->
                     <!-- * * Add Post Form * *-->
                     <!-- * * * * * * * * * * * * * * *-->
-                    <form id="addPostForm" method="post" action="?action=addpost">
+                    <form id="addPostForm" method="post" action="?action=savepost">
                         <!-- Title input-->
                         <div class="form-floating mb-3">
-                            <input class="form-control" id="title" name="title" type="text" placeholder="Mon article" {% if _get['title'] %} value={{ _get['title'] }} {% endif %} required />
+                            <input class="form-control" id="id" name="id" type="hidden" placeholder="Mon id" value="{{ post.id }}" required />
+                            <label for="title">Titre</label>
+                        </div>
+                        <!-- Title input-->
+                        <div class="form-floating mb-3">
+                            <input class="form-control" id="title" name="title" type="text" placeholder="Mon article" value="{{ post.title }}" required />
                             <label for="title">Titre</label>
                         </div>
                         <!-- Chapo input-->
                         <div class="form-floating mb-3">
-                            <input class="form-control" id="chapo" name="chapo" type="text" placeholder="Mon chapô" {% if _get['chapo'] %} value={{ _get['chapo'] }} {% endif %} required/>
+                            <input class="form-control" id="chapo" name="chapo" type="text" placeholder="Mon chapô" value="{{ post.chapo }}" required />
                             <label for="chapo">Chapô</label>
                         </div>
                         <!-- Content input-->
                         <div class="form-floating mb-3">
-                            <textarea class="form-control" id="content" name="content" type="text" placeholder="Contenu de mon article" style="height: 20rem" required>{% if _get['content'] %} {{ _get['content'] }} {% endif %}</textarea>
+                            <textarea class="form-control" id="content" name="content" type="text" placeholder="Contenu de mon article" style="height: 20rem" required>{{ post.content }}</textarea>
                             <label for="content">Contenu</label>
                         </div>
                         <!-- Submit Button-->
-                        <button class="btn btn-primary btn-xl" id="submitButton" type="submit">Ajouter</button>
+                        <button class="btn btn-primary btn-xl" id="submitButton" type="submit">Mettre à jour</button>
                     </form>
                 </div>
             </div>

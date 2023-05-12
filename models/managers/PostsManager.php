@@ -15,6 +15,13 @@ class PostsManager extends Manager
         $request->execute([$post->user()->id(), $post->title(), $post->chapo(), $post->content()]);
     }
 
+    public function savePost(Post $post)
+    {
+        $query = 'UPDATE posts SET user_id=?, title=?, chapo=?, content=?, updated_at=NOW() WHERE id=?';
+        $request = $this->pdo->prepare($query);
+        $request->execute([$post->user()->id(), $post->title(), $post->chapo(), $post->content(), $post->id()]);
+    }
+
     public function findPost(int $id)
     {
         $query = 'SELECT posts.id as post_id, posts.title, posts.chapo, posts.content, posts.created_at, users.id as user_id, users.email FROM posts LEFT JOIN users ON posts.user_id = users.id WHERE posts.id=?';

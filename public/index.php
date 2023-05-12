@@ -90,6 +90,18 @@ switch ($action) {
         $controller = new PostsController();
         $controller->addPost();
         break;
+    case 'editpost':
+        $middleware = new AdminMiddleware();
+        $middleware->checkAllowed();
+        $controller = new PostsController();
+        $controller->editPost();
+        break;
+    case 'savepost':
+        $middleware = new AdminMiddleware();
+        $middleware->checkAllowed();
+        $controller = new PostsController();
+        $controller->savePost();
+        break;
     case 'deletepost':
         $middleware = new AdminMiddleware();
         $middleware->checkAllowed();
