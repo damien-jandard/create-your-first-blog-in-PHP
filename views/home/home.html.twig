@@ -207,39 +207,18 @@
             </div>
             <!-- About Section Content-->
             <div class="row">
-                <div class="col">
-                    <div class="card">
-                        <img src="..." class="card-img-top" alt="...">
-                        <div class="card-body text-secondary">
-                            <h5 class="card-title ">Article</h5>
-                            <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis, sit possimus illo cum aliquid reiciendis ipsa labore numquam dicta. Repellendus ad, eligendi quasi quam quaerat distinctio id dolor vel aspernatur!</p>
-                            <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
-                            <a href="#" class="btn btn-primary">Voir plus</a>
+                {% for post in posts %}
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-body text-secondary">
+                                <h5 class="card-title ">{{ post.title }}</h5>
+                                <p class="card-text">{{ post.content|u.truncate(300, '...', false) }}</p>
+                                <p class="card-text"><small>Par {{ post.email }} le {{ (post.updatedAt > post.createdAt) ? post.updatedAt|date("d/m/Y \\à H:i:s") : post.createdAt|date("d/m/Y \\à H:i:s") }}</small></p>
+                                <a href="?action=blogpost&id={{ post.id }}" class="btn btn-primary">Voir plus</a>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col">
-                    <div class="card">
-                        <img src="..." class="card-img-top" alt="...">
-                        <div class="card-body text-secondary">
-                            <h5 class="card-title ">Article</h5>
-                            <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis, sit possimus illo cum aliquid reiciendis ipsa labore numquam dicta. Repellendus ad, eligendi quasi quam quaerat distinctio id dolor vel aspernatur!</p>
-                            <p class="card-text"><small class="text-body-secondary">Last updated 15 mins ago</small></p>
-                            <a href="#" class="btn btn-primary">Voir plus</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card">
-                        <img src="..." class="card-img-top" alt="...">
-                        <div class="card-body text-secondary">
-                            <h5 class="card-title ">Article</h5>
-                            <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis, sit possimus illo cum aliquid reiciendis ipsa labore numquam dicta. Repellendus ad, eligendi quasi quam quaerat distinctio id dolor vel aspernatur!</p>
-                            <p class="card-text"><small class="text-body-secondary">Last updated 57 mins ago</small></p>
-                            <a href="#" class="btn btn-primary">Voir plus</a>
-                        </div>
-                    </div>
-                </div>
+                {% endfor %}
             </div>
             <!-- Blog Section Button-->
             <div class="text-center mt-4">

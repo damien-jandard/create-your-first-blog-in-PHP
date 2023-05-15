@@ -2,17 +2,24 @@
 
 namespace Controllers;
 
-use PHPMailer\PHPMailer\SMTP;
-use PHPMailer\PHPMailer\Exception;
-use PHPMailer\PHPMailer\PHPMailer;
+use Models\Managers\PostsManager;
 
 class HomeController extends Controller
 {
     use \App\Mailer;
 
+    private $postManager;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->postManager = new PostsManager();
+    }
+
     public function home()
     {
-        return $this->render('home/home.html.twig');
+        $posts = $this->postManager->recentPost();
+        return $this->render('home/home.html.twig', compact('posts'));
     }
 
     public function contact()

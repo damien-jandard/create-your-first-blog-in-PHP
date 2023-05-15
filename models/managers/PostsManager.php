@@ -48,6 +48,21 @@ class PostsManager extends Manager
         return $posts;
     }
 
+    public function recentPost()
+    {
+        $query = 'SELECT posts.id as post_id, posts.title, posts.content, users.id as user_id, users.email, posts.created_at, posts.updated_at FROM posts LEFT JOIN users ON posts.user_id = users.id ORDER BY posts.updated_at DESC, posts.created_at DESC LIMIT 3';
+        $request = $this->pdo->prepare($query);
+        $request->execute();
+        $posts = [];
+        $result = $request->fetchAll(PDO::FETCH_ASSOC);
+        foreach ($result as $data) {
+            $user = new User($data);
+            $post = new Post(array_merge($data, ['user' => $user]));
+            $posts[] = $post;
+        }
+        return $posts;
+    }
+
     public function deletePost(int $id)
     {
         $query = 'DELETE FROM posts WHERE id=?';

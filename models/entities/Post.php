@@ -65,7 +65,7 @@ class Post
 
     public function setUpdatedAt($updatedAt)
     {
-        $this->createdAt = new DateTime($updatedAt ?? '');
+        $this->updatedAt = new DateTime($updatedAt ?? '1970-01-01 00:00:00');
     }
 
     public function user()
