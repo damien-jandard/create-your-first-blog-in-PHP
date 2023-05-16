@@ -104,6 +104,7 @@ class UsersController extends Controller
                 if ($user->checkPassword($password)) {
                     $_SESSION['auth'] = true;
                     $_SESSION['isAdmin'] = $user->isAdmin();
+                    $_SESSION['email'] = $user->email();
                     $_SESSION['id'] = $user->id();
                     if ($user->isAdmin()) {
                         $redirectTo = "?action=dashboard";

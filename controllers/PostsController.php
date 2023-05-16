@@ -91,13 +91,13 @@ class PostsController extends Controller
         return $this->render('/posts/blog.html.twig', ['posts' => $posts]);
     }
 
-    public function blogpost()
+    public function blogpost(bool $auth)
     {
         if (!empty($_GET['id']) && $_GET['id'] > 0) {
             $id = intval($_GET['id']);
             $post = $this->postManager->findPost($id);
             $comments = $this->commmentsManager->findAllCommentsOfBlogPost($id);
-            return $this->render('/posts/blogpost.html.twig', compact('post', 'comments'));
+            return $this->render('/posts/blogpost.html.twig', compact('post', 'comments', 'auth'));
         } else {
             $redirectTo = "?action=error&message=Aucun identifiant d'article envoyé";
             header("Location: $redirectTo");

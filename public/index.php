@@ -6,6 +6,9 @@ use Controllers\PostsController;
 use Controllers\UsersController;
 use Middlewares\AdminMiddleware;
 use Controllers\CommentsController;
+use Middlewares\AuthMiddleware;
+
+use function PHPSTORM_META\map;
 
 require '../vendor/autoload.php';
 
@@ -45,8 +48,16 @@ switch ($action) {
         $controller->blog();
         break;
     case 'blogpost':
+        $middleware = new AuthMiddleware();
+        $auth = $middleware->checkAllowed();
         $controller = new PostsController();
-        $controller->blogpost();
+        $controller->blogpost($auth);
+        break;
+    case 'addcomment':
+        $middleware = new AuthMiddleware();
+        $auth = $middleware->checkAllowed();
+        $controller = new CommentsController();
+        $controller->addComment($auth);
         break;
     case 'register':
         $controller = new UsersController();
