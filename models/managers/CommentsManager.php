@@ -34,9 +34,9 @@ class CommentsManager extends Manager
 
     public function updateComment(Comment $comment): void
     {
-        $query = 'UPDATE comments SET status=?, message=? WHERE id=?';
+        $query = 'UPDATE comments SET status=?, message=?, created_at=? WHERE id=?';
         $request = $this->pdo->prepare($query);
-        $request->execute([(int)$comment->status(), $comment->message(), $comment->id()]);
+        $request->execute([(int)$comment->status(), $comment->message(), $comment->createdAt()->format('Y-m-d H:i:s'), $comment->id()]);
     }
 
     public function findAllCommentsOfBlogPost(int $id)

@@ -48,15 +48,25 @@ class CommentsController extends Controller
     {
         if ($auth) {
             $postId = $_POST['post'];
+            $commentId = $_POST['comment'];
             if (!empty($postId) && $postId > 0) {
                 $message = htmlspecialchars($_POST['message'], ENT_NOQUOTES);
                 if (strlen($message) >= 10 && strlen($message) <= 255) {
-                    $user = $this->userManager->getUser($_SESSION['email']);
-                    $post = $this->postManager->findPost($postId);
-                    $comment = new Comment(['message' => $message, 'user' => $user, 'post' => $post]);
-                    $this->commentManager->addComment($comment);
-                    $message = "Merci pour votre commentaire, celui-ci est soumis à approbation avant d'être rendu public.";
-                    $redirectTo = "?action=blogpost&id=$postId&message=$message";
+                    if (!empty($commentId && $commentId > 0)) {
+                        $comment = $this->commentManager->getComment($commentId);
+                        $comment->setMessage($message);
+                        $comment->setCreatedAt(date('Y-m-d H:i:s'));
+                        $this->commentManager->updateComment($comment);
+                        $message = "Votre commentaire a été modifié avec succès.";
+                        $redirectTo = "?action=blogpost&id=$postId&message=$message";
+                    }else {
+                        $user = $this->userManager->getUser($_SESSION['email']);
+                        $post = $this->postManager->findPost($postId);
+                        $comment = new Comment(['message' => $message, 'user' => $user, 'post' => $post]);
+                        $this->commentManager->addComment($comment);
+                        $message = "Merci pour votre commentaire, celui-ci est soumis à approbation avant d'être rendu public.";
+                        $redirectTo = "?action=blogpost&id=$postId&message=$message";
+                    }
                 }else {
                     $redirectTo = "?action=error&message=Votre commentaire ne respecte pas les règles de validations";
                 }

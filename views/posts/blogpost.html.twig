@@ -30,7 +30,7 @@
                             <div class="card-body">
                                 <h5 class="card-subtitle text-primary">{{ comment.email }}</h5>
                                 <p><small class="text-secondary">{{ comment.createdAt|date("\\L\\e d/m/Y \\à H:i:s") }}</small></p>
-                                <p class="card-text">{{ comment.message }}</p>
+                                <p class="card-text" id="{{ comment.id }}">{{ comment.message }}</p>{% if _session['email'] == comment.email %} <a href="#message" class="btn btn-primary btn-sm" onclick="editComment({{ comment.id }})">Editer</a>{% endif %}
                             </div>
                         </div>
                     {% endfor %}
@@ -54,10 +54,11 @@
                                 <form id="commentForm" method="post" action="?action=addcomment"> <!-- Name input-->
                                     <!-- Comment input-->
                                     <div class="form-floating">
+                                        <input type="hidden" id="comment" name="comment" value="">
                                         <input type="hidden" id="post" name="post" value="{{ post.id }}">
                                     </div>
                                     <div class="form-floating mb-3">
-                                        <textarea class="form-control" id="message" name="message" type="text" placeholder="Entrer votre commentaire ici..." style="height: 10rem" aria-describedby="messageHelpBlock" required>{% if _get['comment'] %}{{ _get['comment'] }}{% endif %}</textarea>
+                                        <textarea class="form-control" id="message" name="message" type="text" placeholder="Entrer votre commentaire ici..." style="height: 10rem" aria-describedby="messageHelpBlock" required></textarea>
                                         <label for="message">Commentaire</label>
                                         <small id="messageHelpBlock" class="form-text text-muted">
                                             Votre commentaire doit comporter entre 10 et 255 caractères.
@@ -86,4 +87,15 @@
             </div>
         </div>
     </section>
+{% endblock %}
+
+{% block javascript %}
+    <script>
+        function editComment(id) {
+            var text = document.getElementById(id).textContent;
+            document.getElementById("comment").value = id;
+            document.getElementById("submitButton").innerText = 'Modifier';
+            document.getElementById('message').innerText = text;
+        }
+    </script>
 {% endblock %}
