@@ -24,12 +24,13 @@ class CommentsManager extends Manager
         return $comments;
     }
 
-    public function getComment(int $id): Comment
+    public function getComment(int $id)
     {
         $query = 'SELECT * FROM comments WHERE id=?';
         $request = $this->pdo->prepare($query);
         $request->execute([$id]);
-        return new Comment($request->fetch(PDO::FETCH_ASSOC));
+        $result = $request->fetch(PDO::FETCH_ASSOC);
+        return !empty($result) ? new Comment($result) : false;
     }
 
     public function updateComment(Comment $comment): void
