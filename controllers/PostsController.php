@@ -96,12 +96,16 @@ class PostsController extends Controller
         if (!empty($_GET['id']) && $_GET['id'] > 0) {
             $id = intval($_GET['id']);
             $post = $this->postManager->findPost($id);
-            $comments = $this->commmentsManager->findAllCommentsOfBlogPost($id);
-            return $this->render('/posts/blogpost.html.twig', compact('post', 'comments', 'auth'));
+            if ($post) {
+                $comments = $this->commmentsManager->findAllCommentsOfBlogPost($id);
+                return $this->render('/posts/blogpost.html.twig', compact('post', 'comments', 'auth'));
+            } else {
+                $redirectTo = "?action=error&message=Identifiant invalide";
+            }
         } else {
             $redirectTo = "?action=error&message=Aucun identifiant d'article envoyé";
-            header("Location: $redirectTo");
-            exit;
         }
+        header("Location: $redirectTo");
+        exit;
     }
 }

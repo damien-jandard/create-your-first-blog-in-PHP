@@ -28,9 +28,13 @@ class PostsManager extends Manager
         $request = $this->pdo->prepare($query);
         $request->execute([$id]);
         $result = $request->fetch(PDO::FETCH_ASSOC);
-        $user = new User($result);
-        $post = new Post(array_merge($result, ['user' => $user]));
-        return $post;
+        if (!empty($result)) {
+            $user = new User($result);
+            $post = new Post(array_merge($result, ['user' => $user]));
+            return $post;
+        } else {
+            return false;
+        }
     }
 
     public function findAllPost()
