@@ -3,7 +3,6 @@
 namespace Controllers;
 
 use Models\Entities\Comment;
-use Models\Entities\User;
 use Models\Managers\CommentsManager;
 use Models\Managers\PostsManager;
 use Models\Managers\UsersManager;
@@ -54,11 +53,15 @@ class CommentsController extends Controller
                 if (strlen($message) >= 10 && strlen($message) <= 255) {
                     if (!empty($commentId && $commentId > 0)) {
                         $comment = $this->commentManager->getComment($commentId);
-                        $comment->setMessage($message);
-                        $comment->setCreatedAt(date('Y-m-d H:i:s'));
-                        $this->commentManager->updateComment($comment);
-                        $message = "Votre commentaire a été modifié avec succès.";
-                        $redirectTo = "?action=blogpost&id=$postId&message=$message";
+                        if ($comment) {
+                            $comment->setMessage($message);
+                            $comment->setCreatedAt(date('Y-m-d H:i:s'));
+                            $this->commentManager->updateComment($comment);
+                            $message = "Votre commentaire a été modifié avec succès.";
+                            $redirectTo = "?action=blogpost&id=$postId&message=$message";
+                        } else {
+                            $redirectTo = "?action=error&message=Identifiant invalide";
+                        }
                     }else {
                         $user = $this->userManager->getUser($_SESSION['email']);
                         $post = $this->postManager->findPost($postId);
