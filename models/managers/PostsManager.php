@@ -39,7 +39,7 @@ class PostsManager extends Manager
 
     public function findAllPost()
     {
-        $query = 'SELECT posts.id as post_id, posts.title, posts.content, users.id as user_id, users.email, posts.created_at FROM posts LEFT JOIN users ON posts.user_id = users.id';
+        $query = 'SELECT posts.id as post_id, posts.title, posts.content, users.id as user_id, users.email, posts.created_at, posts.updated_at FROM posts LEFT JOIN users ON posts.user_id = users.id ORDER BY posts.updated_at DESC, posts.created_at DESC';
         $request = $this->pdo->prepare($query);
         $request->execute();
         $posts = [];

@@ -23,7 +23,7 @@
                             <div class="card-body text-secondary">
                                 <h5 class="card-title ">{{ post.title }}</h5>
                                 <p class="card-text">{{ post.content|u.truncate(255, '...', false) }}</p>
-                                <p class="card-text"><small class="text-body-secondary">Par {{ post.email }} {{ post.createdAt|date("\\l\\e d/m/Y \\à H:i:s") }}</small></p>
+                                <p class="card-text"><small>Par {{ post.email }} le {{ (post.updatedAt > post.createdAt) ? post.updatedAt|date("d/m/Y \\à H:i:s") : post.createdAt|date("d/m/Y \\à H:i:s") }}</small></p>
                                 <a href="?action=blogpost&id={{ post.id }}" class="btn btn-primary">Voir plus</a>
                             </div>
                         </div>
