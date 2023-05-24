@@ -24,7 +24,7 @@ class PostsManager extends Manager
 
     public function findPost(int $id)
     {
-        $query = 'SELECT posts.id as post_id, posts.title, posts.chapo, posts.content, posts.created_at, users.id as user_id, users.email FROM posts LEFT JOIN users ON posts.user_id = users.id WHERE posts.id=?';
+        $query = 'SELECT posts.id as post_id, posts.title, posts.chapo, posts.content, posts.created_at, posts.updated_at, users.id as user_id, users.email FROM posts LEFT JOIN users ON posts.user_id = users.id WHERE posts.id=?';
         $request = $this->pdo->prepare($query);
         $request->execute([$id]);
         $result = $request->fetch(PDO::FETCH_ASSOC);
