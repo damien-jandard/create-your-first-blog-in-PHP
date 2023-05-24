@@ -18,7 +18,7 @@
             <div class="row">
                 <div class="col">
                     <h3>{{ post.chapo }}</h3>
-                    <p><small class="text-secondary">Par {{ post.email }} le {{ (post.updatedAt > post.createdAt) ? post.updatedAt|date("d/m/Y \\à H:i:s") : post.createdAt|date("d/m/Y \\à H:i:s") }}</small></p>
+                    <p><small class="text-secondary">Par {{ post.email|split('@')[0] }} le {{ (post.updatedAt > post.createdAt) ? post.updatedAt|date("d/m/Y \\à H:i:s") : post.createdAt|date("d/m/Y \\à H:i:s") }}</small></p>
                     <p class="lead">{{ post.content }}</p>
                 </div>
             </div>
@@ -28,9 +28,9 @@
                     {% for comment in comments %}
                         <div class="card my-3">
                             <div class="card-body">
-                                <h5 class="card-subtitle text-primary">{{ comment.email }}</h5>
+                                <h5 class="card-subtitle text-primary">{{ comment.email|split('@')[0] }}</h5>
                                 <p><small class="text-secondary">{{ comment.createdAt|date("\\L\\e d/m/Y \\à H:i:s") }}</small></p>
-                                <p class="card-text" id="{{ comment.id }}">{{ comment.message }}</p>{% if _session['email'] == comment.email %} <a href="#message" class="btn btn-primary btn-sm" onclick="editComment({{ comment.id }})">Editer</a>{% endif %}
+                                <p class="card-text" id="{{ comment.id }}">{{ comment.message }}</p>{% if _session['email'] == comment.email|split('@')[0] %} <a href="#message" class="btn btn-primary btn-sm" onclick="editComment({{ comment.id }})">Editer</a>{% endif %}
                             </div>
                         </div>
                     {% endfor %}
