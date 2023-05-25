@@ -2,7 +2,7 @@
 
 namespace Middlewares;
 
-interface iMiddleware
+interface IMiddleware
 {
     public function checkAllowed();
 }

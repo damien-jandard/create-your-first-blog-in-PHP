@@ -12,7 +12,6 @@ trait Mailer
     {
         $mail = new PHPMailer(true);
         try {
-
             $mail->SMTPDebug = SMTP::DEBUG_OFF;
             $mail->isSMTP();
             $mail->Host       = 'localhost';

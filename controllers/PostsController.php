@@ -18,7 +18,7 @@ class PostsController extends Controller
     {
         parent::__construct();
         $this->postManager = new PostsManager();
-        $this->commmentsManager = new CommentsManager;
+        $this->commmentsManager = new CommentsManager();
         $this->session = new PHPSession();
     }
 
@@ -34,14 +34,27 @@ class PostsController extends Controller
             $title = $_POST['title'];
             $chapo = $_POST['chapo'];
             $content = $_POST['content'];
-            $user = new User(['id' => $_SESSION['id']]);
-            $post = new Post(['title' => $title, 'chapo' => $chapo, 'content' => $content, 'user' => $user]);
+            $user = new User([
+                'id' => $_SESSION['id']
+            ]);
+            $post = new Post([
+                'title' => $title,
+                'chapo' => $chapo,
+                'content' => $content,
+                'user' => $user
+            ]);
             $this->postManager->addPost($post);
-            $this->session->set('success', 'L\'article a été ajouté avec succès.');
+            $this->session->set(
+                'success',
+                'L\'article a été ajouté avec succès.'
+            );
             $redirectTo = "?action=dashboard";
         } else {
-            $this->session->set('failure', 'Merci de remplir tous les champs pour créer un nouvel article.');
-            $redirectTo = "?action=newpost&title=" . $_POST['title'] . "&chapo=" . $_POST['chapo'] . "&content=" . $_POST['content'];
+            $this->session->set(
+                'failure',
+                'Merci de remplir tous les champs pour créer un nouvel article.'
+            );
+            $redirectTo = "?action=newpost";
         }
         header("Location: $redirectTo");
         exit;
@@ -54,15 +67,24 @@ class PostsController extends Controller
             $post = $this->postManager->findPost($id);
             if ($post) {
                 $failure = $this->session->get('failure');
-                return $this->render('/posts/edit.html.twig', compact('post', 'failure'));
+                return $this->render(
+                    '/posts/edit.html.twig',
+                    compact('post', 'failure')
+                );
             } else {
-                $this->session->set('failure', 'L\'article demandé n\'existe pas.');
+                $this->session->set(
+                    'failure',
+                    'L\'article demandé n\'existe pas.'
+                );
                 $redirectTo = "?action=dashboard";
                 header("Location: $redirectTo");
                 exit;
             }
         } else {
-            $this->session->set('failure', 'Aucun identifiant d\'article envoyé.');
+            $this->session->set(
+                'failure',
+                'Aucun identifiant d\'article envoyé.'
+            );
             $redirectTo = "?action=dashboard";
             header("Location: $redirectTo");
             exit;
@@ -76,13 +98,27 @@ class PostsController extends Controller
             $title = $_POST['title'];
             $chapo = $_POST['chapo'];
             $content = $_POST['content'];
-            $user = new User(['id' => $_SESSION['id']]);
-            $post = new Post(['id' => $id, 'title' => $title, 'chapo' => $chapo, 'content' => $content, 'user' => $user]);
+            $user = new User([
+                'id' => $_SESSION['id']
+            ]);
+            $post = new Post([
+                'id' => $id,
+                'title' => $title,
+                'chapo' => $chapo,
+                'content' => $content,
+                'user' => $user
+            ]);
             $this->postManager->savePost($post);
-            $this->session->set('success', 'L\'article a été mis à jour.');
+            $this->session->set(
+                'success',
+                'L\'article a été mis à jour.'
+            );
             $redirectTo = "?action=dashboard";
         } else {
-            $this->session->set('failure', 'Merci de remplir tous les champs pour mettre à jour l\'article.');
+            $this->session->set(
+                'failure',
+                'Merci de remplir tous les champs pour mettre à jour l\'article.'
+            );
             $redirectTo = "?action=editpost&id=" . $_POST['id'];
         }
         header("Location: $redirectTo");
@@ -94,10 +130,16 @@ class PostsController extends Controller
         if (!empty($_GET['id']) && $_GET['id'] > 0) {
             $id = intval($_GET['id']);
             $this->postManager->deletePost($id);
-            $this->session->set('success', 'L\'article a été supprimé avec succès.');
+            $this->session->set(
+                'success',
+                'L\'article a été supprimé avec succès.'
+            );
             $redirectTo = "?action=dashboard";
         } else {
-            $this->session->set('failure', 'Aucun identifiant d\'article envoyé.');
+            $this->session->set(
+                'failure',
+                'Aucun identifiant d\'article envoyé.'
+            );
             $redirectTo = "?action=dashboard";
         }
         header("Location: $redirectTo");
@@ -107,7 +149,10 @@ class PostsController extends Controller
     public function blog()
     {
         $posts = $this->postManager->findAllPost('ORDER BY posts.updated_at DESC, posts.created_at DESC');
-        return $this->render('/posts/blog.html.twig', compact('posts'));
+        return $this->render(
+            '/posts/blog.html.twig',
+            compact('posts')
+        );
     }
 
     public function blogpost(bool $auth)
@@ -119,13 +164,22 @@ class PostsController extends Controller
                 $comments = $this->commmentsManager->findAllCommentsOfBlogPost($id);
                 $success = $this->session->get('success');
                 $failure = $this->session->get('failure');
-                return $this->render('/posts/blogpost.html.twig', compact('post', 'comments', 'auth', 'success', 'failure'));
+                return $this->render(
+                    '/posts/blogpost.html.twig',
+                    compact('post', 'comments', 'auth', 'success', 'failure')
+                );
             } else {
-                $this->session->set('error', 'Identifiant d\'article invalide');
+                $this->session->set(
+                    'error',
+                    'Identifiant d\'article invalide'
+                );
                 $redirectTo = "?action=error";
             }
         } else {
-            $this->session->set('error', 'Aucun identifiant d\'article envoyé');
+            $this->session->set(
+                'error',
+                'Aucun identifiant d\'article envoyé'
+            );
             $redirectTo = "?action=error";
         }
         header("Location: $redirectTo");

@@ -31,16 +31,25 @@ class CommentsController extends Controller
             $comment = $this->commentManager->getComment($id);
             if ($_GET['action'] === 'approvecomment') {
                 $status = true;
-                $this->session->set('success', 'Le commentaire a été approuvé et est désormais rendu public');
-            }else {
+                $this->session->set(
+                    'success',
+                    'Le commentaire a été approuvé et est désormais rendu public'
+                );
+            } else {
                 $status = false;
-                $this->session->set('failure', 'Le commentaire a été refusé et ne sera pas rendu public');
+                $this->session->set(
+                    'failure',
+                    'Le commentaire a été refusé et ne sera pas rendu public'
+                );
             }
             $comment->setStatus($status);
             $this->commentManager->updateComment($comment);
             $redirectTo = "?action=dashboard";
-        }else {
-            $this->session->set('error', 'Aucun identifiant de commentaire envoyé');
+        } else {
+            $this->session->set(
+                'error',
+                'Aucun identifiant de commentaire envoyé'
+            );
             $redirectTo = "?action=error";
         }
         header("Location: $redirectTo");
@@ -61,31 +70,52 @@ class CommentsController extends Controller
                             $comment->setMessage($message);
                             $comment->setCreatedAt(date('Y-m-d H:i:s'));
                             $this->commentManager->updateComment($comment);
-                            $this->session->set('success', 'Votre commentaire a été modifié avec succès.');
+                            $this->session->set(
+                                'success',
+                                'Votre commentaire a été modifié avec succès.'
+                            );
                             $redirectTo = "?action=blogpost&id=$postId";
                         } else {
-                            $this->session->set('error', 'Identifiant invalide');
+                            $this->session->set(
+                                'error',
+                                'Identifiant invalide'
+                            );
                             $redirectTo = "?action=error";
                         }
-                    }else {
+                    } else {
                         $user = $this->userManager->getUser($_SESSION['email']);
                         $post = $this->postManager->findPost($postId);
-                        $comment = new Comment(['message' => $message, 'user' => $user, 'post' => $post]);
+                        $comment = new Comment([
+                            'message' => $message,
+                            'user' => $user,
+                            'post' => $post
+                        ]);
                         $this->commentManager->addComment($comment);
-                        $this->session->set('success', 'Merci pour votre commentaire, celui-ci est soumis à approbation avant d\'être rendu public.');
+                        $this->session->set(
+                            'success',
+                            'Merci pour votre commentaire, il sera soumis à approbation avant d\'être rendu public.'
+                        );
                         $redirectTo = "?action=blogpost&id=$postId";
                     }
-                }else {
-
-                    $this->session->set('failure', 'Votre commentaire ne respecte pas les règles de validations');
+                } else {
+                    $this->session->set(
+                        'failure',
+                        'Votre commentaire ne respecte pas les règles de validations'
+                    );
                     $redirectTo = "?action=blogpost&id=$postId&message=$message";
                 }
-            }else {
-                $this->session->set('error', 'Aucun identifiant d\'article envoyé');
+            } else {
+                $this->session->set(
+                    'error',
+                    'Aucun identifiant d\'article envoyé'
+                );
                 $redirectTo = "?action=error";
             }
-        }else {
-            $this->session->set('error', 'Merci de vous authentifier pour poster un commentaire');
+        } else {
+            $this->session->set(
+                'error',
+                'Merci de vous authentifier pour poster un commentaire'
+            );
             $redirectTo = "?action=error";
         }
         header("Location: $redirectTo");
