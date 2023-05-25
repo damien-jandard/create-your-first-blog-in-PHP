@@ -17,6 +17,9 @@ class ErrorController extends Controller
     public function error()
     {
         $error = $this->session->get('error');
-        return $this->render('error/error.html.twig', compact('error'));
+        return $this->render(
+            'error/error.html.twig',
+            compact('error')
+        );
     }
 }

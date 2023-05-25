@@ -4,7 +4,7 @@ namespace Middlewares;
 
 use App\PHPSession;
 
-class AdminMiddleware implements iMiddleware
+class AdminMiddleware implements IMiddleware
 {
     private $session;
 
@@ -16,7 +16,10 @@ class AdminMiddleware implements iMiddleware
     public function checkAllowed()
     {
         if (empty($_SESSION['isAdmin']) || !$_SESSION['isAdmin']) {
-            $this->session->set('error', 'Nous sommes désolés, mais vous n\'avez pas accès à cette page ou cette ressource.');
+            $this->session->set(
+                'error',
+                'Nous sommes désolés, mais vous n\'avez pas accès à cette page ou cette ressource.'
+            );
             $redirectTo = "?action=error";
             header("Location: $redirectTo");
             exit;
