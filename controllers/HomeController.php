@@ -2,6 +2,7 @@
 
 namespace Controllers;
 
+use App\PHPSession;
 use Models\Managers\PostsManager;
 
 class HomeController extends Controller
@@ -9,17 +10,21 @@ class HomeController extends Controller
     use \App\Mailer;
 
     private $postManager;
+    private $session;
 
     public function __construct()
     {
         parent::__construct();
         $this->postManager = new PostsManager();
+        $this->session = new PHPSession();
     }
 
     public function home()
     {
-        $posts = $this->postManager->recentPost();
-        return $this->render('home/home.html.twig', compact('posts'));
+        $posts = $this->postManager->findAllPost('ORDER BY posts.updated_at DESC, posts.created_at DESC LIMIT 3');
+        $success = $this->session->get('success');
+        $failure = $this->session->get('failure');
+        return $this->render('home/home.html.twig', compact('posts', 'success', 'failure'));
     }
 
     public function contact()
@@ -32,25 +37,31 @@ class HomeController extends Controller
                     $message = strip_tags($_POST['message']);
                     if (strlen($message) >= 10 && strlen($message) < 255) {
                         ob_start();
-                        $this->render('email/contact.html.twig', ['name' => $name, 'email' => $email, 'message' => $message]);
+                        $this->render('email/contact.html.twig', compact('name', 'email', 'message'));
                         $body = ob_get_clean();
                         $mailToAdmin = $this->sendEmail('Prise de contact', $email, 'contact@blog.com', $body);
                         if ($mailToAdmin === 'Email envoyé') {
-                            $redirectTo = "?status=ended#contact";
+                            $this->session->set('success', 'Merci pour votre prise de contact nous ne manquerons pas de revenir vers vous dès que possible.');
+                            $redirectTo = "?#contact";
                         } else {
-                            $redirectTo = "?action=error&message=" . $mailToAdmin;
+                            $this->session->set('error', $mailToAdmin);
+                            $redirectTo = "?action=error";
                         }
                     } else {
-                        $redirectTo = "?status=message&name=$name&email=$email&message=$message#contact";
+                        $this->session->set('failure', 'Merci de saisir un message compris entre 10 et 255 caractères.');
+                        $redirectTo = "?name=$name&email=$email&message=$message#contact";
                     }
                 } else {
-                    $redirectTo = "?status=message&name=$name&email=$email#contact";
+                    $this->session->set('failure', 'Merci de saisir un message compris entre 10 et 255 caractères.');
+                    $redirectTo = "?name=$name&email=$email#contact";
                 }
             } else {
-                $redirectTo = "?status=email&name=$name#contact";
+                $this->session->set('failure', 'Merci de saisir une adresse email valide.');
+                $redirectTo = "?name=$name#contact";
             }
         } else {
-            $redirectTo = "?status=name#contact";
+            $this->session->set('failure', 'Merci de saisir votre nom.');
+            $redirectTo = "?#contact";
         }
         header("Location: $redirectTo");
         exit;

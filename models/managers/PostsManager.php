@@ -10,7 +10,7 @@ class PostsManager extends Manager
 {
     public function addPost(Post $post)
     {
-        $query = 'INSERT INTO posts (user_id, title, chapo, content, created_at) VALUES (?, ?, ?, ?, NOW())';
+        $query = 'INSERT INTO posts (user_id, title, chapo, content, created_at, updated_at) VALUES (?, ?, ?, ?, NOW(), NOW())';
         $request = $this->pdo->prepare($query);
         $request->execute([$post->user()->id(), $post->title(), $post->chapo(), $post->content()]);
     }
@@ -37,9 +37,9 @@ class PostsManager extends Manager
         }
     }
 
-    public function findAllPost()
+    public function findAllPost(string $sorting = '')
     {
-        $query = 'SELECT posts.id as post_id, posts.title, posts.content, users.id as user_id, users.email, posts.created_at, posts.updated_at FROM posts LEFT JOIN users ON posts.user_id = users.id ORDER BY posts.updated_at DESC, posts.created_at DESC';
+        $query = 'SELECT posts.id as post_id, posts.title, posts.content, users.id as user_id, users.email, posts.created_at, posts.updated_at FROM posts LEFT JOIN users ON posts.user_id = users.id ' . $sorting;
         $request = $this->pdo->prepare($query);
         $request->execute();
         $posts = [];

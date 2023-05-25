@@ -16,12 +16,8 @@
             <div class="row">
                 <div class="col-lg-4 ms-auto">
                     <p class="lead pt-5">
-                        {% if _get['message'] %}
-                            {% if _get['message'] == '403' %}
-                                Nous sommes désolés, mais vous n'avez pas accès à cette page ou cette ressource.
-                            {% else %}
-                                {{ _get['message'] }}
-                            {% endif %}
+                        {% if error %}
+                            {{ error }}
                         {% else %}
                             La page demandée n'existe pas.
                         {% endif %}

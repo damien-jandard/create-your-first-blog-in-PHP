@@ -2,6 +2,7 @@
 
 namespace Controllers;
 
+use App\PHPSession;
 use Models\Entities\User;
 use Models\Managers\CommentsManager;
 use Models\Managers\PostsManager;
@@ -14,6 +15,7 @@ class UsersController extends Controller
     private $userManager;
     private $postManager;
     private $commentManager;
+    private $session;
 
     public function __construct()
     {
@@ -21,11 +23,14 @@ class UsersController extends Controller
         $this->userManager = new UsersManager();
         $this->postManager = new PostsManager();
         $this->commentManager = new CommentsManager();
+        $this->session = new PHPSession();
     }
 
     public function register()
     {
-        return $this->render('users/register.html.twig');
+        $success = $this->session->get('success');
+        $failure = $this->session->get('failure');
+        return $this->render('users/register.html.twig', compact('success', 'failure'));
     }
 
     public function addUser()
@@ -40,7 +45,8 @@ class UsersController extends Controller
                     $number    = preg_match('@[0-9]@', $password);
                     $specialChars = preg_match('@[^\w]@', $password);
                     if (!$uppercase || !$lowercase || !$number || !$specialChars || strlen($password) < 8) {
-                        $redirectTo = "?action=register&error=4&email=$email";
+                        $this->session->set('failure', 'Votre mot de passe ne respecte pas les règles de sécurité.');
+                        $redirectTo = "?action=register&email=$email";
                     } else {
                         $password = password_hash($password, PASSWORD_BCRYPT);
                         $token = bin2hex(openssl_random_pseudo_bytes(16));
@@ -49,26 +55,32 @@ class UsersController extends Controller
                             $this->userManager->register($user);
                             ob_start();
                             $url = "http://blog.test/?action=registered&email=$email&token=$token";
-                            $this->render('email/activation.html.twig', ['url' => $url]);
+                            $this->render('email/activation.html.twig', compact('url'));
                             $body = ob_get_clean();
                             $mailToUser = $this->sendEmail('Activation de compte Blog PHP', $email, 'contact@blog.com', $body);
                             if ($mailToUser === 'Email envoyé') {
-                                $redirectTo = "?action=login&activate=check";
+                                $this->session->set('success', 'Merci pour votre inscription. Pensez à activer votre compte en cliquant sur le lien envoyé par email.');
+                                $redirectTo = "?action=login";
                             } else {
-                                $redirectTo = "?action=error&message=" . $mailToUser;
+                                $this->session->set('failure', $mailToUser);
+                                $redirectTo = "?action=error";
                             }
                         } else {
-                            $redirectTo = "?action=register&error=5&email=$email";
+                            $this->session->set('failure', 'Un compte existe déjà pour cette adresse email.');
+                            $redirectTo = "?action=register&email=$email";
                         }
                     }
                 } else {
-                    $redirectTo = "?action=register&error=3&email=$email";
+                    $this->session->set('failure', 'Les mots de passes ne sont pas identiques.');
+                    $redirectTo = "?action=register&email=$email";
                 }
             } else {
-                $redirectTo = "?action=register&error=2&email=$email";
+                $this->session->set('failure', 'Merci de saisir un mot de passe.');
+                $redirectTo = "?action=register&email=$email";
             }
         } else {
-            $redirectTo = "?action=register&error=1";
+            $this->session->set('failure', 'Adresse email non valide.');
+            $redirectTo = "?action=register";
         }
         header("Location: $redirectTo");
         exit;
@@ -81,7 +93,8 @@ class UsersController extends Controller
             $token = htmlspecialchars($_GET['token']);
             $user = new User(['email' => $email, 'token' => $token]);
             $this->userManager->registered($user);
-            $redirectTo = "?action=login&activate=checked";
+            $this->session->set('success', 'Votre compte est désormais activé. Vous pouvez dès à présent vous connecter.');
+            $redirectTo = "?action=login";
         } else {
             $redirectTo = "?";
         }
@@ -91,7 +104,9 @@ class UsersController extends Controller
 
     public function login()
     {
-        return $this->render('users/login.html.twig');
+        $success = $this->session->get('success');
+        $failure = $this->session->get('failure');
+        return $this->render('users/login.html.twig', compact('success', 'failure'));
     }
 
     public function postLogin()
@@ -109,16 +124,19 @@ class UsersController extends Controller
                     if ($user->isAdmin()) {
                         $redirectTo = "?action=dashboard";
                     } else {
-                        $redirectTo =  "http://blog.test";
+                        $redirectTo =  "?";
                     }
                 } else {
-                    $redirectTo = "?action=login&authentication=failed&email=$email";
+                    $this->session->set('failure', 'Utilisateur ou mot de passe incorrect.');
+                    $redirectTo = "?action=login&email=$email";
                 }
             } else {
-                $redirectTo = "?action=login&authentication=failed";
+                $this->session->set('failure', 'Utilisateur ou mot de passe incorrect.');
+                $redirectTo = "?action=login";
             }
         } else {
-            $redirectTo = "?action=login&authentication=empty";
+            $this->session->set('failure', 'Les champs ne peuvent pas être vide.');
+            $redirectTo = "?action=login";
         }
         header("Location: $redirectTo");
         exit;
@@ -128,7 +146,9 @@ class UsersController extends Controller
     {
         $posts = $this->postManager->findAllPost();
         $comments = $this->commentManager->findAllPendingComments();
-        return $this->render('users/dashboard.html.twig', ['posts' => $posts, 'comments' => $comments]);
+        $success = $this->session->get('success');
+        $failure = $this->session->get('failure');
+        return $this->render('users/dashboard.html.twig', compact('posts', 'comments', 'success', 'failure'));
     }
 
     public function logout()
@@ -136,7 +156,7 @@ class UsersController extends Controller
         $_SESSION = [];
         session_unset();
         session_destroy();
-        header('Location: http://blog.test');
+        header('Location: ?');
         exit;
     }
 }

@@ -123,6 +123,18 @@
             <!-- Contact Section Form-->
             <div class="row justify-content-center">
                 <div class="col-lg-8 col-xl-7">
+                    {% if success %}
+                        <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+                            <i class="fa-solid fa-check me-2"></i>{{ success }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endif %}
+                    {% if failure %}
+                        <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+                            <i class="fa-solid fa-ban me-2"></i>{{ failure }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endif %}
                     <!-- * * * * * * * * * * * * * * *-->
                     <!-- * * Contact Form * *-->
                     <!-- * * * * * * * * * * * * * * *-->
@@ -144,17 +156,6 @@
                         <!-- Submit Button-->
                         <button class="btn btn-primary btn-xl" id="submitButton" type="submit">Envoyer</button>
                     </form>
-                    {% if _get['status'] %}
-                        {% if _get['status'] == 'ended' %}
-                            <div class="alert alert-success mt-3" role="alert">Merci pour votre prise de contact nous ne manquerons pas de revenir vers vous dès que possible.</div>
-                        {% elseif _get['status'] == 'name' %}
-                            <div class="alert alert-danger mt-3" role="alert">Merci de saisir votre nom.</div>
-                        {% elseif _get['status'] == 'email' %}
-                            <div class="alert alert-danger mt-3" role="alert">Merci de saisir une adresse email valide.</div>
-                        {% elseif _get['status'] == 'message' %}
-                            <div class="alert alert-danger mt-3" role="alert">Merci de saisir un message compris entre 10 et 255 caractères.</div>
-                        {% endif %}
-                    {% endif %}
                 </div>
             </div>
         </div>

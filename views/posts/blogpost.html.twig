@@ -36,10 +36,23 @@
                     {% endfor %}
                 </div>
             </div>
-            {% if _get['message'] %}
+            {% if success %}
                 <div class="row">
                     <div class="col">
-                        <div class="alert alert-success" role="alert">{{ _get['message'] }}</div>
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <i class="fa-solid fa-check me-2"></i>{{ success }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+            {% if failure %}
+                <div class="row">
+                    <div class="col">
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <i class="fa-solid fa-ban me-2"></i>{{ failure }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
                     </div>
                 </div>
             {% endif %}
@@ -58,7 +71,7 @@
                                         <input type="hidden" id="post" name="post" value="{{ post.id }}">
                                     </div>
                                     <div class="form-floating mb-3">
-                                        <textarea class="form-control" id="message" name="message" type="text" placeholder="Entrer votre commentaire ici..." style="height: 10rem" aria-describedby="messageHelpBlock" required></textarea>
+                                        <textarea class="form-control" id="message" name="message" type="text" placeholder="Entrer votre commentaire ici..." style="height: 10rem" aria-describedby="messageHelpBlock" required>{% if _get['message'] %} {{ _get['message'] }} {% endif %}</textarea>
                                         <label for="message">Commentaire</label>
                                         <small id="messageHelpBlock" class="form-text text-muted">
                                             Votre commentaire doit comporter entre 10 et 255 caractères.
