@@ -13,6 +13,30 @@
                 <div class="divider-custom-line"></div>
             </div>
         </div>
+        {% if success %}
+            <div class="container">
+                <div class="col">
+                    <div class="row">
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <i class="fa-solid fa-check me-2"></i>{{ success }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+        {% if failure %}
+            <div class="container">
+                <div class="col">
+                    <div class="row">
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <i class="fa-solid fa-ban me-2"></i>{{ failure }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
         <div class="container">
             <div class="col">
                 <div class="row">
@@ -20,24 +44,6 @@
                     <form id="newPostForm" method="post" action="?action=newpost">
                         <button class="btn btn-primary my-3" id="submitButton" type="submit">Ajouter un article</button>
                     </form>
-                    {% if _get['message'] == 'postadded' %}
-                        <div class="alert alert-success alert-dismissible fade show" role="alert">
-                            <i class="fa-solid fa-check me-2"></i>L'article a été ajouté avec succès.
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
-                    {% endif %}
-                    {% if _get['message'] == 'postsaved' %}
-                        <div class="alert alert-success alert-dismissible fade show" role="alert">
-                            <i class="fa-solid fa-check me-2"></i>L'article a été mis à jour.
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
-                    {% endif %}
-                    {% if _get['message'] == 'postdeleted' %}
-                        <div class="alert alert-success alert-dismissible fade show" role="alert">
-                            <i class="fa-solid fa-check me-2"></i>L'article a été supprimé avec succès.
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
-                    {% endif %}
                 </div>
                 <div class="row mb-4">
                     <div class="table-responsive">
@@ -57,7 +63,7 @@
                                     <th scope="row">{{ post.id }}</th>
                                     <td>{{ post.title }}</td>
                                     <td>{{ post.email }}</td>
-                                    <td>Le {{ post.created_at|date("d/m/Y à H:i:s") }}</td>
+                                    <td>Le {{ (post.updatedAt > post.createdAt) ? post.updatedAt|date("d/m/Y \\à H:i:s") : post.createdAt|date("d/m/Y \\à H:i:s") }}</td>
                                     <td><a class="btn btn-sm" href="?action=editpost&id={{ post.id }}"><i class="fa-solid fa-pen-to-square me-2"></i>Editer</a></td>
                                     <td><button class="btn btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#postModal{{ post.id }}"><i class="fa-solid fa-trash me-2"></i>Supprimer</button></td>
                                 </tr>
@@ -68,18 +74,6 @@
                 </div>
                 <div class="row">
                     <h3>Gestion des commentaires</h3>
-                    {% if _get['message'] == 'commentapproved' %}
-                        <div class="alert alert-success alert-dismissible fade show" role="alert">
-                            <i class="fa-solid fa-check me-2"></i>Le commentaire a été accepté.
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
-                    {% endif %}
-                    {% if _get['message'] == 'commentdenied' %}
-                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                            <i class="fa-solid fa-ban me-2"></i>Le commentaire a été refusé.
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
-                    {% endif %}
                 </div>
 
                 <div class="row mb-4">
@@ -100,7 +94,7 @@
                                     <th scope="row">{{ comment.id }}</th>
                                     <td>{{ comment.message|u.truncate(50, '...', false) }}</td>
                                     <td>{{ comment.email }}</td>
-                                    <td>Le {{ comment.created_at|date("d/m/Y à H:i:s") }}</td>
+                                    <td>Le {{ comment.createdAt|date("d/m/Y à H:i:s") }}</td>
                                     <td><button class="btn btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#commentModal{{ comment.id }}"><i class="fa-solid fa-trash me-2"></i>Visualiser</button></td>
                                 </tr>
                             {% endfor %}

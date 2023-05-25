@@ -2,6 +2,7 @@
 
 namespace Controllers;
 
+use App\PHPSession;
 use Models\Entities\Post;
 use Models\Entities\User;
 use Models\Managers\CommentsManager;
@@ -11,31 +12,36 @@ class PostsController extends Controller
 {
     private $postManager;
     private $commmentsManager;
+    private $session;
 
     public function __construct()
     {
         parent::__construct();
         $this->postManager = new PostsManager();
         $this->commmentsManager = new CommentsManager;
+        $this->session = new PHPSession();
     }
 
     public function newPost()
     {
-        return $this->render('/posts/new.html.twig');
+        $failure = $this->session->get('failure');
+        return $this->render('/posts/new.html.twig', compact('failure'));
     }
 
     public function addPost()
     {
         if (!empty($_POST['title']) && !empty($_POST['chapo']) && !empty($_POST['content'])) {
-            $title = htmlspecialchars($_POST['title'], ENT_NOQUOTES);
-            $chapo = htmlspecialchars($_POST['chapo'], ENT_NOQUOTES);
-            $content = htmlspecialchars($_POST['content'], ENT_NOQUOTES);
+            $title = $_POST['title'];
+            $chapo = $_POST['chapo'];
+            $content = $_POST['content'];
             $user = new User(['id' => $_SESSION['id']]);
             $post = new Post(['title' => $title, 'chapo' => $chapo, 'content' => $content, 'user' => $user]);
             $this->postManager->addPost($post);
-            $redirectTo = "?action=dashboard&message=postadded";
+            $this->session->set('success', 'L\'article a été ajouté avec succès.');
+            $redirectTo = "?action=dashboard";
         } else {
-            $redirectTo = "?action=newpost&error=1&title=" . $_POST['title'] . "&chapo=" . $_POST['chapo'] . "&content=" . $_POST['content'];
+            $this->session->set('failure', 'Merci de remplir tous les champs pour créer un nouvel article.');
+            $redirectTo = "?action=newpost&title=" . $_POST['title'] . "&chapo=" . $_POST['chapo'] . "&content=" . $_POST['content'];
         }
         header("Location: $redirectTo");
         exit;
@@ -46,9 +52,18 @@ class PostsController extends Controller
         if (!empty($_GET['id']) && $_GET['id'] > 0) {
             $id = intval($_GET['id']);
             $post = $this->postManager->findPost($id);
-            return $this->render('/posts/edit.html.twig', compact('post'));
+            if ($post) {
+                $failure = $this->session->get('failure');
+                return $this->render('/posts/edit.html.twig', compact('post', 'failure'));
+            } else {
+                $this->session->set('failure', 'L\'article demandé n\'existe pas.');
+                $redirectTo = "?action=dashboard";
+                header("Location: $redirectTo");
+                exit;
+            }
         } else {
-            $redirectTo = "?action=error&message=Aucun identifiant d'article envoyé";
+            $this->session->set('failure', 'Aucun identifiant d\'article envoyé.');
+            $redirectTo = "?action=dashboard";
             header("Location: $redirectTo");
             exit;
         }
@@ -58,15 +73,17 @@ class PostsController extends Controller
     {
         if (!empty($_POST['id']) && !empty($_POST['title']) && !empty($_POST['chapo']) && !empty($_POST['content'])) {
             $id = intval($_POST['id']);
-            $title = htmlspecialchars($_POST['title'], ENT_NOQUOTES);
-            $chapo = htmlspecialchars($_POST['chapo'], ENT_NOQUOTES);
-            $content = htmlspecialchars($_POST['content'], ENT_NOQUOTES);
+            $title = $_POST['title'];
+            $chapo = $_POST['chapo'];
+            $content = $_POST['content'];
             $user = new User(['id' => $_SESSION['id']]);
             $post = new Post(['id' => $id, 'title' => $title, 'chapo' => $chapo, 'content' => $content, 'user' => $user]);
             $this->postManager->savePost($post);
-            $redirectTo = "?action=dashboard&message=postsaved";
+            $this->session->set('success', 'L\'article a été mis à jour.');
+            $redirectTo = "?action=dashboard";
         } else {
-            $redirectTo = "?action=editpost&id=" . $_POST['id']. "&error=1";
+            $this->session->set('failure', 'Merci de remplir tous les champs pour mettre à jour l\'article.');
+            $redirectTo = "?action=editpost&id=" . $_POST['id'];
         }
         header("Location: $redirectTo");
         exit;
@@ -77,9 +94,11 @@ class PostsController extends Controller
         if (!empty($_GET['id']) && $_GET['id'] > 0) {
             $id = intval($_GET['id']);
             $this->postManager->deletePost($id);
-            $redirectTo = "?action=dashboard&message=postdeleted";
+            $this->session->set('success', 'L\'article a été supprimé avec succès.');
+            $redirectTo = "?action=dashboard";
         } else {
-            $redirectTo = "?action=error&message=Aucun identifiant d'article envoyé";
+            $this->session->set('failure', 'Aucun identifiant d\'article envoyé.');
+            $redirectTo = "?action=dashboard";
         }
         header("Location: $redirectTo");
         exit;
@@ -87,8 +106,8 @@ class PostsController extends Controller
 
     public function blog()
     {
-        $posts = $this->postManager->findAllPost();
-        return $this->render('/posts/blog.html.twig', ['posts' => $posts]);
+        $posts = $this->postManager->findAllPost('ORDER BY posts.updated_at DESC, posts.created_at DESC');
+        return $this->render('/posts/blog.html.twig', compact('posts'));
     }
 
     public function blogpost(bool $auth)
@@ -98,12 +117,16 @@ class PostsController extends Controller
             $post = $this->postManager->findPost($id);
             if ($post) {
                 $comments = $this->commmentsManager->findAllCommentsOfBlogPost($id);
-                return $this->render('/posts/blogpost.html.twig', compact('post', 'comments', 'auth'));
+                $success = $this->session->get('success');
+                $failure = $this->session->get('failure');
+                return $this->render('/posts/blogpost.html.twig', compact('post', 'comments', 'auth', 'success', 'failure'));
             } else {
-                $redirectTo = "?action=error&message=Identifiant invalide";
+                $this->session->set('error', 'Identifiant d\'article invalide');
+                $redirectTo = "?action=error";
             }
         } else {
-            $redirectTo = "?action=error&message=Aucun identifiant d'article envoyé";
+            $this->session->set('error', 'Aucun identifiant d\'article envoyé');
+            $redirectTo = "?action=error";
         }
         header("Location: $redirectTo");
         exit;

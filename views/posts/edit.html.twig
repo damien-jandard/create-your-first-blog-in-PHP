@@ -13,6 +13,26 @@
                 <div class="divider-custom-line"></div>
             </div>
             <!-- Add Post Section Form-->
+            {% if success %}
+                <div class="row justify-content-center">
+                    <div class="col-lg-8 col-xl-7">
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <i class="fa-solid fa-check me-2"></i>{{ success }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+            {% if failure %}
+                <div class="row justify-content-center">
+                    <div class="col-lg-8 col-xl-7">
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <i class="fa-solid fa-ban me-2"></i>{{ failure }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
             <div class="row justify-content-center">
                 <div class="col-lg-8 col-xl-7">
                     <!-- * * * * * * * * * * * * * * *-->
@@ -31,7 +51,7 @@
                         </div>
                         <!-- Chapo input-->
                         <div class="form-floating mb-3">
-                            <input class="form-control" id="chapo" name="chapo" type="text" placeholder="Mon chapô" value="{{ post.chapo }}" required />
+                            <input class="form-control" id="chapo" name="chapo" type="text" placeholder="Mon chapô" value="{{ post.chapo }}"  />
                             <label for="chapo">Chapô</label>
                         </div>
                         <!-- Content input-->

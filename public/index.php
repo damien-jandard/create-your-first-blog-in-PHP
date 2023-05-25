@@ -12,7 +12,9 @@ use function PHPSTORM_META\map;
 
 require '../vendor/autoload.php';
 
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 function dd($data)
 {

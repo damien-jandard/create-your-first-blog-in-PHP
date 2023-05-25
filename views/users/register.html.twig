@@ -18,11 +18,23 @@
             <!-- Register Section Form-->
             <div class="row justify-content-center">
                 <div class="col-lg-8 col-xl-7">
+                    {% if success %}
+                        <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+                            <i class="fa-solid fa-check me-2"></i>{{ success }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endif %}
+                    {% if failure %}
+                        <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+                            <i class="fa-solid fa-ban me-2"></i>{{ failure }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endif %}
                     <!-- * * * * * * * * * * * * * * *-->
                     <!-- * * Register Form * *-->
                     <!-- * * * * * * * * * * * * * * *-->
-                        <form
-                        id="registerForm" method="post" action="?action=adduser"> <!-- Email address input-->
+                    <form id="registerForm" method="post" action="?action=adduser">
+                        <!-- Email address input-->
                         <div class="form-floating mb-3">
                             <input class="form-control" id="email" name="email" type="email" placeholder="name@example.com" {% if _get['email'] %} value={{ _get['email'] }} {% endif %}/>
                             <label for="email">Email</label>
@@ -43,27 +55,6 @@
                         <!-- Submit Button-->
                         <button class="btn btn-primary btn-xl" id="submitButton" type="submit">S'enregistrer</button>
                     </form>
-                    {% if _get['error'] %}
-                        <div class="alert alert-danger mt-3" role="alert">
-                            {% if _get['error'] == 1 %}
-                                Adresse email non valide !
-                            {% elseif _get['error'] == 2 %}
-                                Aucun mot de passe n'a été saisi !
-                            {% elseif _get['error'] == 3 %}
-                                Les mots de passes ne sont pas identiques !
-                            {% elseif _get['error'] == 4 %}
-                                Votre mot de passe ne respecte pas les règles de sécurité !
-                            {% else %}
-                                {% if _get['email'] %}
-                                    Un compte existe déjà pour cette adresse email !
-                                    <a href="?action=login&email={{ _get['email'] }}">Se connecter</a>
-                                {% else %}
-                                    Un compte existe déjà pour cette adresse email !
-                                    <a href="?action=login">Se connecter</a>
-                                {% endif %}
-                            {% endif %}
-                        </div>
-                    {% endif %}
                 </div>
             </div>
         </div>

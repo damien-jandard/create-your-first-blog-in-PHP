@@ -2,6 +2,7 @@
 
 namespace Controllers;
 
+use App\PHPSession;
 use Models\Entities\Comment;
 use Models\Managers\CommentsManager;
 use Models\Managers\PostsManager;
@@ -12,6 +13,7 @@ class CommentsController extends Controller
     private $commentManager;
     private $userManager;
     private $postManager;
+    private $session;
 
     public function __construct()
     {
@@ -19,6 +21,7 @@ class CommentsController extends Controller
         $this->commentManager = new CommentsManager();
         $this->userManager = new UsersManager();
         $this->postManager = new PostsManager();
+        $this->session = new PHPSession();
     }
 
     public function defineStatusComment()
@@ -28,16 +31,17 @@ class CommentsController extends Controller
             $comment = $this->commentManager->getComment($id);
             if ($_GET['action'] === 'approvecomment') {
                 $status = true;
-                $message = "commentapproved";
+                $this->session->set('success', 'Le commentaire a été approuvé et est désormais rendu public');
             }else {
                 $status = false;
-                $message = "commentdenied";
+                $this->session->set('failure', 'Le commentaire a été refusé et ne sera pas rendu public');
             }
             $comment->setStatus($status);
             $this->commentManager->updateComment($comment);
-            $redirectTo = "?action=dashboard&message=$message";
+            $redirectTo = "?action=dashboard";
         }else {
-            $redirectTo = "?action=error&message=Aucun identifiant de commentaire envoyé";
+            $this->session->set('error', 'Aucun identifiant de commentaire envoyé');
+            $redirectTo = "?action=error";
         }
         header("Location: $redirectTo");
         exit;
@@ -46,7 +50,7 @@ class CommentsController extends Controller
     public function addComment(bool $auth)
     {
         if ($auth) {
-            $postId = $_POST['post'];
+            $postId = intval($_POST['post']);
             $commentId = $_POST['comment'];
             if (!empty($postId) && $postId > 0) {
                 $message = htmlspecialchars($_POST['message'], ENT_NOQUOTES);
@@ -57,27 +61,32 @@ class CommentsController extends Controller
                             $comment->setMessage($message);
                             $comment->setCreatedAt(date('Y-m-d H:i:s'));
                             $this->commentManager->updateComment($comment);
-                            $message = "Votre commentaire a été modifié avec succès.";
-                            $redirectTo = "?action=blogpost&id=$postId&message=$message";
+                            $this->session->set('success', 'Votre commentaire a été modifié avec succès.');
+                            $redirectTo = "?action=blogpost&id=$postId";
                         } else {
-                            $redirectTo = "?action=error&message=Identifiant invalide";
+                            $this->session->set('error', 'Identifiant invalide');
+                            $redirectTo = "?action=error";
                         }
                     }else {
                         $user = $this->userManager->getUser($_SESSION['email']);
                         $post = $this->postManager->findPost($postId);
                         $comment = new Comment(['message' => $message, 'user' => $user, 'post' => $post]);
                         $this->commentManager->addComment($comment);
-                        $message = "Merci pour votre commentaire, celui-ci est soumis à approbation avant d'être rendu public.";
-                        $redirectTo = "?action=blogpost&id=$postId&message=$message";
+                        $this->session->set('success', 'Merci pour votre commentaire, celui-ci est soumis à approbation avant d\'être rendu public.');
+                        $redirectTo = "?action=blogpost&id=$postId";
                     }
                 }else {
-                    $redirectTo = "?action=error&message=Votre commentaire ne respecte pas les règles de validations";
+
+                    $this->session->set('failure', 'Votre commentaire ne respecte pas les règles de validations');
+                    $redirectTo = "?action=blogpost&id=$postId&message=$message";
                 }
             }else {
-                $redirectTo = "?action=error&message=Aucun identifiant d'article envoyé";
+                $this->session->set('error', 'Aucun identifiant d\'article envoyé');
+                $redirectTo = "?action=error";
             }
         }else {
-            $redirectTo = "?action=error&message=Merci de vous authentifier pour poster un commentaire";
+            $this->session->set('error', 'Merci de vous authentifier pour poster un commentaire');
+            $redirectTo = "?action=error";
         }
         header("Location: $redirectTo");
         exit;
