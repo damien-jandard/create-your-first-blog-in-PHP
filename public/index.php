@@ -19,7 +19,7 @@ if (session_status() === PHP_SESSION_NONE) {
 $dotenv = Dotenv\Dotenv::createImmutable('../');
 $dotenv->load();
 
-function dd($data): void
+function dd(mixed $data): void
 {
     echo '<pre>';
     var_dump($data);
