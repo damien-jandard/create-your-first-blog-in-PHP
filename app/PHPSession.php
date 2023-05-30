@@ -4,7 +4,7 @@ namespace App;
 
 class PHPSession
 {
-    public function get(string $key, $default = null)
+    public function get(string $key, string $default = null): ?string
     {
         if (array_key_exists($key, $_SESSION)) {
             $value = $_SESSION[$key];
@@ -14,7 +14,7 @@ class PHPSession
         return $default;
     }
 
-    public function set(string $key, $value): void
+    public function set(string $key, string $value): void
     {
         $_SESSION[$key] = $value;
     }

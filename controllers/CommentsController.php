@@ -52,8 +52,7 @@ class CommentsController extends Controller
             );
             $redirectTo = "?action=error";
         }
-        header("Location: $redirectTo");
-        exit;
+        $this->redirectTo($redirectTo);
     }
 
     public function addComment(bool $auth)
@@ -118,7 +117,6 @@ class CommentsController extends Controller
             );
             $redirectTo = "?action=error";
         }
-        header("Location: $redirectTo");
-        exit;
+        $this->redirectTo($redirectTo);
     }
 }

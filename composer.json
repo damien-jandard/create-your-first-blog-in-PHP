@@ -2,6 +2,7 @@
     "name": "dj/blog",
     "description": "Blog PHP",
     "type": "project",
+    "license": "proprietary",
     "authors": [
         {
             "name": "Damien JANDARD"

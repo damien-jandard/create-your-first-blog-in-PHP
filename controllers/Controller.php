@@ -26,15 +26,20 @@ abstract class Controller
             $this->twig->addGlobal('_session', $_SESSION);
             $this->twig->addGlobal('_get', $_GET);
             $this->twig->addGlobal('_post', $_POST);
-            if ($parameters != null) {
+            if ($parameters !== null) {
                 echo $this->twig->render($twigFile, $parameters);
             } else {
                 echo $this->twig->render($twigFile);
             }
         } catch (\Exception $e) {
-            var_dump($e);
             return false;
         }
         return true;
+    }
+
+    public function redirectTo($redirectTo)
+    {
+        header("Location: $redirectTo");
+        exit;
     }
 }
