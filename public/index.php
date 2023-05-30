@@ -16,6 +16,9 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+$dotenv = Dotenv\Dotenv::createImmutable('../');
+$dotenv->load();
+
 function dd($data)
 {
     echo '<pre>';
