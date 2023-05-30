@@ -2,6 +2,8 @@
 
 Project number five completed as part of my OpenClassrooms training.
 
+[![SymfonyInsight](https://insight.symfony.com/projects/8ca687b4-e8dd-41fd-aab8-2a9028a9078e/big.svg)](https://insight.symfony.com/projects/8ca687b4-e8dd-41fd-aab8-2a9028a9078e)
+
 ### Requirements
 
  * Apache 2.4
@@ -33,7 +35,11 @@ mysql -u user -ppassword blog<blog.sql
 Please make sure to modify the username, password, and database name if necessary.
 
 5. Duplicate the **.env.example** file at the root of the project and rename it to **.env**.
+```shell
+cp .env.example .env
+```
 Complete the file with the values that correspond to your configuration, then save it.
+
 
 6. You can test the website using the following credentials.
 
