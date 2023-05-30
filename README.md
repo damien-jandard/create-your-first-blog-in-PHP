@@ -8,7 +8,6 @@ Project number five completed as part of my OpenClassrooms training.
  * PHP 8.1
  * MySQL 8.0
  * Composer 2.3
- * Node.js 18.4
 
 ## Install
 
@@ -29,14 +28,12 @@ composer install
 4. Import the .sql file located at the root of the project into your database management system.
 You can use the following command to do that.
 ```sql
-mysql -u root -p blog<blog.sql
+mysql -u user -ppassword blog<blog.sql
 ```
 Please make sure to modify the username, password, and database name if necessary.
 
-5. Modify line 13 of the Manager.php file if your credentials differ from the default ones (the file is located in /models/managers/).
-```php
-$this->pdo = new  PDO('mysql:host=127.0.0.1;dbname=blog;charset=utf8', 'root', '');
-```
+5. Duplicate the **.env.example** file at the root of the project and rename it to **.env**.
+Complete the file with the values that correspond to your configuration, then save it.
 
 6. You can test the website using the following credentials.
 
