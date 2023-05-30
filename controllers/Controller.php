@@ -40,6 +40,6 @@ abstract class Controller
     public function redirectTo($redirectTo)
     {
         header("Location: $redirectTo");
-        exit;
+        return;
     }
 }

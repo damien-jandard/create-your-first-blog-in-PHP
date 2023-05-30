@@ -22,7 +22,7 @@ class AdminMiddleware implements MiddlewareInterface
             );
             $redirectTo = "?action=error";
             header("Location: $redirectTo");
-            exit;
+            return;
         }
     }
 }
