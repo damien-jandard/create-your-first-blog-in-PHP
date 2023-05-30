@@ -4,7 +4,7 @@ namespace Middlewares;
 
 use App\PHPSession;
 
-class AdminMiddleware implements IMiddleware
+class AdminMiddleware implements MiddlewareInterface
 {
     private $session;
 
@@ -22,7 +22,7 @@ class AdminMiddleware implements IMiddleware
             );
             $redirectTo = "?action=error";
             header("Location: $redirectTo");
-            exit;
+            return;
         }
     }
 }

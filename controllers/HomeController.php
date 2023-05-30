@@ -21,7 +21,7 @@ class HomeController extends Controller
 
     public function home()
     {
-        $posts = $this->postManager->findAllPost('ORDER BY posts.updated_at DESC, posts.created_at DESC LIMIT 3');
+        $posts = $this->postManager->findAllPost(' ORDER BY posts.updated_at DESC, posts.created_at DESC LIMIT 3');
         $success = $this->session->get('success');
         $failure = $this->session->get('failure');
         return $this->render(
@@ -92,7 +92,6 @@ class HomeController extends Controller
             );
             $redirectTo = "?#contact";
         }
-        header("Location: $redirectTo");
-        exit;
+        $this->redirectTo($redirectTo);
     }
 }

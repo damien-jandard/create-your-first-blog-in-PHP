@@ -2,7 +2,7 @@
 
 namespace Middlewares;
 
-class AuthMiddleware implements IMiddleware
+class AuthMiddleware implements MiddlewareInterface
 {
     public function checkAllowed()
     {

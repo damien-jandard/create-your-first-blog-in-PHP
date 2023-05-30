@@ -19,7 +19,7 @@ if (session_status() === PHP_SESSION_NONE) {
 $dotenv = Dotenv\Dotenv::createImmutable('../');
 $dotenv->load();
 
-function dd($data)
+function dd(mixed $data): void
 {
     echo '<pre>';
     var_dump($data);
@@ -27,12 +27,12 @@ function dd($data)
     exit;
 }
 
-function camel_to_snake($input)
+function camel_to_snake(string $input): string
 {
     return strtolower(preg_replace('/(?<!^)[A-Z]/', '_$0', $input));
 }
 
-function snakeToCamel($input)
+function snakeToCamel(string $input): string
 {
     return lcfirst(str_replace(' ', '', ucwords(str_replace('_', ' ', $input))));
 }

@@ -118,8 +118,7 @@ class UsersController extends Controller
             );
             $redirectTo = "?action=register";
         }
-        header("Location: $redirectTo");
-        exit;
+        $this->redirectTo($redirectTo);
     }
 
     public function registered()
@@ -140,8 +139,7 @@ class UsersController extends Controller
         } else {
             $redirectTo = "?";
         }
-        header("Location: $redirectTo");
-        exit;
+        $this->redirectTo($redirectTo);
     }
 
     public function login()
@@ -192,8 +190,7 @@ class UsersController extends Controller
             );
             $redirectTo = "?action=login";
         }
-        header("Location: $redirectTo");
-        exit;
+        $this->redirectTo($redirectTo);
     }
 
     public function dashboard()
@@ -213,7 +210,7 @@ class UsersController extends Controller
         $_SESSION = [];
         session_unset();
         session_destroy();
-        header('Location: ?');
-        exit;
+        $redirectTo = '?';
+        $this->redirectTo($redirectTo);
     }
 }

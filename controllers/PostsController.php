@@ -56,8 +56,7 @@ class PostsController extends Controller
             );
             $redirectTo = "?action=newpost";
         }
-        header("Location: $redirectTo");
-        exit;
+        $this->redirectTo($redirectTo);
     }
 
     public function editPost()
@@ -77,8 +76,7 @@ class PostsController extends Controller
                     'L\'article demandé n\'existe pas.'
                 );
                 $redirectTo = "?action=dashboard";
-                header("Location: $redirectTo");
-                exit;
+                $this->redirectTo($redirectTo);
             }
         } else {
             $this->session->set(
@@ -86,8 +84,7 @@ class PostsController extends Controller
                 'Aucun identifiant d\'article envoyé.'
             );
             $redirectTo = "?action=dashboard";
-            header("Location: $redirectTo");
-            exit;
+            $this->redirectTo($redirectTo);
         }
     }
 
@@ -121,8 +118,7 @@ class PostsController extends Controller
             );
             $redirectTo = "?action=editpost&id=" . $_POST['id'];
         }
-        header("Location: $redirectTo");
-        exit;
+        $this->redirectTo($redirectTo);
     }
 
     public function deletePost()
@@ -142,13 +138,12 @@ class PostsController extends Controller
             );
             $redirectTo = "?action=dashboard";
         }
-        header("Location: $redirectTo");
-        exit;
+        $this->redirectTo($redirectTo);
     }
 
     public function blog()
     {
-        $posts = $this->postManager->findAllPost('ORDER BY posts.updated_at DESC, posts.created_at DESC');
+        $posts = $this->postManager->findAllPost(' ORDER BY posts.updated_at DESC, posts.created_at DESC');
         return $this->render(
             '/posts/blog.html.twig',
             compact('posts')
@@ -182,7 +177,6 @@ class PostsController extends Controller
             );
             $redirectTo = "?action=error";
         }
-        header("Location: $redirectTo");
-        exit;
+        $this->redirectTo($redirectTo);
     }
 }
