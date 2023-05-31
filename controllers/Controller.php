@@ -37,7 +37,7 @@ abstract class Controller
         return true;
     }
 
-    public function redirectTo($redirectTo)
+    public function redirectTo(string $redirectTo)
     {
         header("Location: $redirectTo");
         return;

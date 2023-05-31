@@ -11,21 +11,30 @@ class UsersManager extends Manager
     {
         $query = 'INSERT INTO users (email, password, token, created_at) VALUES (?, ?, ?, NOW())';
         $request = $this->pdo->prepare($query);
-        $request->execute([$user->email(), $user->password(), $user->token()]);
+        $request->execute([
+            $user->email(),
+            $user->password(),
+            $user->token()
+        ]);
     }
 
     public function registered(User $user)
     {
         $query = 'UPDATE users SET status =1 WHERE email=? AND token=?';
         $request = $this->pdo->prepare($query);
-        $request->execute([$user->email(), $user->token()]);
+        $request->execute([
+            $user->email(),
+            $user->token()
+        ]);
     }
 
     public function checkUser(string $email)
     {
         $query = 'SELECT id FROM users WHERE email=?';
         $request = $this->pdo->prepare($query);
-        $request->execute([$email]);
+        $request->execute([
+            $email
+        ]);
         $result = $request->fetch(PDO::FETCH_ASSOC);
         return $result;
     }
@@ -34,7 +43,9 @@ class UsersManager extends Manager
     {
         $query = 'SELECT * FROM users WHERE email=? AND status=1';
         $request = $this->pdo->prepare($query);
-        $request->execute([$email]);
+        $request->execute([
+            $email
+        ]);
         $result = $request->fetch(PDO::FETCH_ASSOC);
         return !empty($result) ? new User($result) : false;
     }

@@ -143,7 +143,7 @@ class PostsController extends Controller
 
     public function blog()
     {
-        $posts = $this->postManager->findAllPost(' ORDER BY posts.updated_at DESC, posts.created_at DESC');
+        $posts = $this->postManager->findAllPost(true);
         return $this->render(
             '/posts/blog.html.twig',
             compact('posts')
