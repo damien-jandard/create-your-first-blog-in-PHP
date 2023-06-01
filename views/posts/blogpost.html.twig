@@ -30,7 +30,7 @@
                             <div class="card-body">
                                 <h5 class="card-subtitle text-primary">{{ comment.email|split('@')[0] }}</h5>
                                 <p><small class="text-secondary">{{ comment.createdAt|date("\\L\\e d/m/Y \\à H:i:s") }}</small></p>
-                                <p class="card-text" id="{{ comment.id }}">{{ comment.message }}</p>{% if _session['email'] == comment.email|split('@')[0] %} <a href="#message" class="btn btn-primary btn-sm" onclick="editComment({{ comment.id }})">Editer</a>{% endif %}
+                                <p class="card-text" id="{{ comment.id }}">{{ comment.message }}</p>{% if _session['email'] == comment.email %} <a href="#message" class="btn btn-primary btn-sm" onclick="editComment({{ comment.id }})">Editer</a>{% endif %}
                             </div>
                         </div>
                     {% endfor %}
